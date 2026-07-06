@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { LocaleProvider } from "@/lib/locale";
 
 function NotFoundComponent() {
   return (
@@ -82,8 +83,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "website" },
       { name: "twitter:description", content: "website - ligad1" },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ce2c4863-f731-4afd-9e44-2f87b4d8d4d6/id-preview-f80a9d7d--5266dce4-4ae2-4acd-a139-7caaba531709.lovable.app-1779199738742.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ce2c4863-f731-4afd-9e44-2f87b4d8d4d6/id-preview-f80a9d7d--5266dce4-4ae2-4acd-a139-7caaba531709.lovable.app-1779199738742.png" },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ce2c4863-f731-4afd-9e44-2f87b4d8d4d6/id-preview-f80a9d7d--5266dce4-4ae2-4acd-a139-7caaba531709.lovable.app-1779199738742.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ce2c4863-f731-4afd-9e44-2f87b4d8d4d6/id-preview-f80a9d7d--5266dce4-4ae2-4acd-a139-7caaba531709.lovable.app-1779199738742.png",
+      },
     ],
     links: [
       {
@@ -117,7 +126,9 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <LocaleProvider defaultLocale="en">
+        <Outlet />
+      </LocaleProvider>
     </QueryClientProvider>
   );
 }

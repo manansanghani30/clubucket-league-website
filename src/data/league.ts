@@ -18,14 +18,44 @@ export const teams: Team[] = [
   { id: "comonfort-academy", name: "Comonfort Academy", initials: "CA", division: "Bajío Zone" },
   { id: "independent-club-v", name: "Independent Club V", initials: "ICV", division: "Bajío Zone" },
   { id: "pl-jerez-fc", name: "PL Jerez FC", initials: "PLJ", division: "Bajío Zone" },
-  { id: "furniture-makers-fc", name: "Furniture Makers FC", initials: "FMF", division: "Bajío Zone" },
+  {
+    id: "furniture-makers-fc",
+    name: "Furniture Makers FC",
+    initials: "FMF",
+    division: "Bajío Zone",
+  },
   { id: "cf-barracuda-da", name: "Barracudas CL", initials: "BCL", division: "Downtown Area" },
   { id: "fc-mixquiahuala-da", name: "FC Mixquiahuala", initials: "MIX", division: "Downtown Area" },
-  { id: "dragons-metepec-da", name: "Dragones Metepec FC", initials: "DMF", division: "Downtown Area" },
-  { id: "tecos-temascalapa-da", name: "Tecos Temascalapa", initials: "TT", division: "Downtown Area" },
-  { id: "fc-galeones-da", name: "FC Galeones Acapulco", initials: "FGA", division: "Downtown Area" },
-  { id: "tuzos-altiplano-da", name: "Tuzos Altiplano FC", initials: "TAF", division: "Downtown Area" },
-  { id: "resilience-ac-da", name: "Acapulco Resilience", initials: "ACR", division: "Downtown Area" },
+  {
+    id: "dragons-metepec-da",
+    name: "Dragones Metepec FC",
+    initials: "DMF",
+    division: "Downtown Area",
+  },
+  {
+    id: "tecos-temascalapa-da",
+    name: "Tecos Temascalapa",
+    initials: "TT",
+    division: "Downtown Area",
+  },
+  {
+    id: "fc-galeones-da",
+    name: "FC Galeones Acapulco",
+    initials: "FGA",
+    division: "Downtown Area",
+  },
+  {
+    id: "tuzos-altiplano-da",
+    name: "Tuzos Altiplano FC",
+    initials: "TAF",
+    division: "Downtown Area",
+  },
+  {
+    id: "resilience-ac-da",
+    name: "Acapulco Resilience",
+    initials: "ACR",
+    division: "Downtown Area",
+  },
 ];
 
 export const divisions = ["Bajío Zone", "Downtown Area"] as const;
@@ -49,35 +79,78 @@ export type Fixture = {
   venue: string;
 };
 
-export const tickerFixtures = [
-  { jornada: "J4", home: "Barracudas CL", away: "FC Mixquiahuala", h: 0, a: 2 },
-  { jornada: "J3", home: "Tecos Temascalapa", away: "Dragones Metepec FC", h: 2, a: 0 },
-  { jornada: "J3", home: "FC Galeones Acapulco", away: "Dragones Metepec FC", h: 3, a: 1 },
-  { jornada: "J2", home: "Acapulco Resilience", away: "FC Galeones Acapulco", h: 1, a: 1 },
-];
-
 export const resultados: { jornada: string; label: string; matches: Fixture[] }[] = [
   {
     jornada: "ROUND 4",
     label: "14–18 MAY 2026",
     matches: [
-      { jornada: 4, date: "15 May", time: "18:00", home: "Barracudas CL", away: "FC Mixquiahuala", homeScore: 0, awayScore: 2, status: "Completed", venue: "Estadio Barracudas, Celaya" },
-      { jornada: 4, date: "16 May", time: "18:00", home: "FC Galeones Acapulco", away: "Dragones Metepec FC", homeScore: 2, awayScore: 0, status: "Completed", venue: "Estadio Galeones, Acapulco" },
+      {
+        jornada: 4,
+        date: "15 May",
+        time: "18:00",
+        home: "Barracudas CL",
+        away: "FC Mixquiahuala",
+        homeScore: 0,
+        awayScore: 2,
+        status: "Completed",
+        venue: "Estadio Barracudas, Celaya",
+      },
+      {
+        jornada: 4,
+        date: "16 May",
+        time: "18:00",
+        home: "FC Galeones Acapulco",
+        away: "Dragones Metepec FC",
+        homeScore: 2,
+        awayScore: 0,
+        status: "Completed",
+        venue: "Estadio Galeones, Acapulco",
+      },
     ],
   },
   {
     jornada: "ROUND 3",
     label: "7–11 MAY 2026",
     matches: [
-      { jornada: 3, date: "8 May", time: "18:00", home: "FC Mixquiahuala", away: "Barracudas CL", homeScore: 4, awayScore: 0, status: "Completed", venue: "Estadio Mixquiahuala, Hidalgo" },
-      { jornada: 3, date: "10 May", time: "18:00", home: "Acapulco Resilience", away: "FC Galeones Acapulco", homeScore: 1, awayScore: 1, status: "Completed", venue: "Estadio Resilience, Acapulco" },
+      {
+        jornada: 3,
+        date: "8 May",
+        time: "18:00",
+        home: "FC Mixquiahuala",
+        away: "Barracudas CL",
+        homeScore: 4,
+        awayScore: 0,
+        status: "Completed",
+        venue: "Estadio Mixquiahuala, Hidalgo",
+      },
+      {
+        jornada: 3,
+        date: "10 May",
+        time: "18:00",
+        home: "Acapulco Resilience",
+        away: "FC Galeones Acapulco",
+        homeScore: 1,
+        awayScore: 1,
+        status: "Completed",
+        venue: "Estadio Resilience, Acapulco",
+      },
     ],
   },
   {
     jornada: "ROUND 2",
     label: "30 APRIL–4 MAY 2026",
     matches: [
-      { jornada: 2, date: "1 May", time: "18:00", home: "Tecos Temascalapa", away: "Dragones Metepec FC", homeScore: 2, awayScore: 0, status: "Completed", venue: "Estadio Tecos, Temascalapa" },
+      {
+        jornada: 2,
+        date: "1 May",
+        time: "18:00",
+        home: "Tecos Temascalapa",
+        away: "Dragones Metepec FC",
+        homeScore: 2,
+        awayScore: 0,
+        status: "Completed",
+        venue: "Estadio Tecos, Temascalapa",
+      },
     ],
   },
 ];
@@ -87,14 +160,28 @@ export const proximos: { jornada: string; label: string; matches: Fixture[] }[] 
     jornada: "ROUND 5",
     label: "21–25 MAY 2026",
     matches: [
-      { jornada: 5, date: "23 May", time: "18:00", home: "FC Mixquiahuala", away: "Barracudas CL", status: "Upcoming", venue: "Estadio Mixquiahuala, Hidalgo" },
+      {
+        jornada: 5,
+        date: "23 May",
+        time: "18:00",
+        home: "FC Mixquiahuala",
+        away: "Barracudas CL",
+        status: "Upcoming",
+        venue: "Estadio Mixquiahuala, Hidalgo",
+      },
     ],
   },
 ];
 
 export type StandingRow = {
   team: string;
-  pj: number; g: number; e: number; p: number; gf: number; gc: number; pts: number;
+  pj: number;
+  g: number;
+  e: number;
+  p: number;
+  gf: number;
+  gc: number;
+  pts: number;
 };
 
 export const standings: Record<string, StandingRow[]> = {
@@ -118,7 +205,10 @@ export const standings: Record<string, StandingRow[]> = {
 };
 
 export type Player = {
-  number: number; name: string; position: "GK" | "DEF" | "MID" | "FWD"; nationality: string;
+  number: number;
+  name: string;
+  position: "GK" | "DEF" | "MID" | "FWD";
+  nationality: string;
 };
 
 export const fcAztecaSquad: Player[] = [
@@ -135,19 +225,83 @@ export const fcAztecaSquad: Player[] = [
   { number: 10, name: "Marcos Ibáñez", position: "FWD", nationality: "Mexico" },
 ];
 
-
 export const news = [
-  { category: "LEAGUE NEWS", title: "Spring 2026 Season Kicks Off with Record Attendance Across All Venues", date: "May 10, 2026", excerpt: "LigaD1 opens its season with unprecedented fan turnout and renewed energy...", image: news1 },
-  { category: "PLAYER SPOTLIGHT", title: "Óscar Lima Named Player of the Month for April", date: "May 5, 2026", excerpt: "The Bajío Zone midfielder has been in stunning form, contributing 5 goals and 3 assists...", image: news2 },
-  { category: "FIXTURE NEWS", title: "Round 5 Fixtures Confirmed — Key Clashes Ahead", date: "May 17, 2026", excerpt: "The upcoming round features marquee matchups across the divisions...", image: news3 },
-  { category: "CLUB NEWS", title: "FC Mixquiahuala Extend Winning Run to Four Games in Bajío Zone", date: "May 15, 2026", excerpt: "FC Mixquiahuala continue their flawless start to the season with another commanding win...", image: news4 },
-  { category: "LEAGUE NEWS", title: "LigaD1 Partners with Local Youth Academies for Player Development", date: "May 3, 2026", excerpt: "A new initiative aims to bridge youth football and the semi-pro game across Mexico...", image: news5 },
+  {
+    category: "LEAGUE NEWS",
+    title: "Spring 2026 Season Kicks Off with Record Attendance Across All Venues",
+    date: "May 10, 2026",
+    excerpt: "LigaD1 opens its season with unprecedented fan turnout and renewed energy...",
+    image: news1,
+  },
+  {
+    category: "PLAYER SPOTLIGHT",
+    title: "Óscar Lima Named Player of the Month for April",
+    date: "May 5, 2026",
+    excerpt:
+      "The Bajío Zone midfielder has been in stunning form, contributing 5 goals and 3 assists...",
+    image: news2,
+  },
+  {
+    category: "FIXTURE NEWS",
+    title: "Round 5 Fixtures Confirmed — Key Clashes Ahead",
+    date: "May 17, 2026",
+    excerpt: "The upcoming round features marquee matchups across the divisions...",
+    image: news3,
+  },
+  {
+    category: "CLUB NEWS",
+    title: "FC Mixquiahuala Extend Winning Run to Four Games in Bajío Zone",
+    date: "May 15, 2026",
+    excerpt:
+      "FC Mixquiahuala continue their flawless start to the season with another commanding win...",
+    image: news4,
+  },
+  {
+    category: "LEAGUE NEWS",
+    title: "LigaD1 Partners with Local Youth Academies for Player Development",
+    date: "May 3, 2026",
+    excerpt:
+      "A new initiative aims to bridge youth football and the semi-pro game across Mexico...",
+    image: news5,
+  },
 ];
 
 export const highlights = [
-  { category: "MATCH HIGHLIGHTS", title: "Barracudas CL 0–2 FC Mixquiahuala — Round 4 Recap", date: "May 15, 2026", excerpt: "Watch the full highlights from a tight away win for Mixquiahuala in the Downtown Area.", image: news1 },
-  { category: "TOP GOALS", title: "Top 5 Goals of the Month — April 2026", date: "May 2, 2026", excerpt: "From thunderous strikes to silky team moves, here are April's best finishes.", image: news2 },
-  { category: "PLAYER OF THE WEEK", title: "Óscar Lima's Masterclass vs PL Jerez FC", date: "May 11, 2026", excerpt: "A goal, two assists, and 92% pass accuracy — relive Lima's complete midfield performance.", image: news3 },
-  { category: "MATCH HIGHLIGHTS", title: "FC Galeones 2–0 Dragones Metepec — Statement Win", date: "May 16, 2026", excerpt: "Galeones dominate at home with a clinical first-half display.", image: news4 },
-  { category: "BEST SAVES", title: "Top Goalkeeper Saves — Round 3 & 4", date: "May 12, 2026", excerpt: "The keepers who kept their teams in the fight across the past two rounds.", image: news5 },
+  {
+    category: "MATCH HIGHLIGHTS",
+    title: "Barracudas CL 0–2 FC Mixquiahuala — Round 4 Recap",
+    date: "May 15, 2026",
+    excerpt:
+      "Watch the full highlights from a tight away win for Mixquiahuala in the Downtown Area.",
+    image: news1,
+  },
+  {
+    category: "TOP GOALS",
+    title: "Top 5 Goals of the Month — April 2026",
+    date: "May 2, 2026",
+    excerpt: "From thunderous strikes to silky team moves, here are April's best finishes.",
+    image: news2,
+  },
+  {
+    category: "PLAYER OF THE WEEK",
+    title: "Óscar Lima's Masterclass vs PL Jerez FC",
+    date: "May 11, 2026",
+    excerpt:
+      "A goal, two assists, and 92% pass accuracy — relive Lima's complete midfield performance.",
+    image: news3,
+  },
+  {
+    category: "MATCH HIGHLIGHTS",
+    title: "FC Galeones 2–0 Dragones Metepec — Statement Win",
+    date: "May 16, 2026",
+    excerpt: "Galeones dominate at home with a clinical first-half display.",
+    image: news4,
+  },
+  {
+    category: "BEST SAVES",
+    title: "Top Goalkeeper Saves — Round 3 & 4",
+    date: "May 12, 2026",
+    excerpt: "The keepers who kept their teams in the fight across the past two rounds.",
+    image: news5,
+  },
 ];

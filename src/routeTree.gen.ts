@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TopScorersRouteImport } from './routes/top-scorers'
 import { Route as StandingRouteImport } from './routes/standing'
 import { Route as ScheduleRouteImport } from './routes/schedule'
 import { Route as RegisterRouteImport } from './routes/register'
@@ -18,7 +19,14 @@ import { Route as DivisionsRouteImport } from './routes/divisions'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TeamsTeamIdRouteImport } from './routes/teams.$teamId'
+import { Route as NewsSlugRouteImport } from './routes/news.$slug'
+import { Route as HighlightsSlugRouteImport } from './routes/highlights.$slug'
 
+const TopScorersRoute = TopScorersRouteImport.update({
+  id: '/top-scorers',
+  path: '/top-scorers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StandingRoute = StandingRouteImport.update({
   id: '/standing',
   path: '/standing',
@@ -64,27 +72,43 @@ const TeamsTeamIdRoute = TeamsTeamIdRouteImport.update({
   path: '/teams/$teamId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NewsSlugRoute = NewsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => NewsRoute,
+} as any)
+const HighlightsSlugRoute = HighlightsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => HighlightsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/divisions': typeof DivisionsRoute
-  '/highlights': typeof HighlightsRoute
-  '/news': typeof NewsRoute
+  '/highlights': typeof HighlightsRouteWithChildren
+  '/news': typeof NewsRouteWithChildren
   '/register': typeof RegisterRoute
   '/schedule': typeof ScheduleRoute
   '/standing': typeof StandingRoute
+  '/top-scorers': typeof TopScorersRoute
+  '/highlights/$slug': typeof HighlightsSlugRoute
+  '/news/$slug': typeof NewsSlugRoute
   '/teams/$teamId': typeof TeamsTeamIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/divisions': typeof DivisionsRoute
-  '/highlights': typeof HighlightsRoute
-  '/news': typeof NewsRoute
+  '/highlights': typeof HighlightsRouteWithChildren
+  '/news': typeof NewsRouteWithChildren
   '/register': typeof RegisterRoute
   '/schedule': typeof ScheduleRoute
   '/standing': typeof StandingRoute
+  '/top-scorers': typeof TopScorersRoute
+  '/highlights/$slug': typeof HighlightsSlugRoute
+  '/news/$slug': typeof NewsSlugRoute
   '/teams/$teamId': typeof TeamsTeamIdRoute
 }
 export interface FileRoutesById {
@@ -92,11 +116,14 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/divisions': typeof DivisionsRoute
-  '/highlights': typeof HighlightsRoute
-  '/news': typeof NewsRoute
+  '/highlights': typeof HighlightsRouteWithChildren
+  '/news': typeof NewsRouteWithChildren
   '/register': typeof RegisterRoute
   '/schedule': typeof ScheduleRoute
   '/standing': typeof StandingRoute
+  '/top-scorers': typeof TopScorersRoute
+  '/highlights/$slug': typeof HighlightsSlugRoute
+  '/news/$slug': typeof NewsSlugRoute
   '/teams/$teamId': typeof TeamsTeamIdRoute
 }
 export interface FileRouteTypes {
@@ -110,6 +137,9 @@ export interface FileRouteTypes {
     | '/register'
     | '/schedule'
     | '/standing'
+    | '/top-scorers'
+    | '/highlights/$slug'
+    | '/news/$slug'
     | '/teams/$teamId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -121,6 +151,9 @@ export interface FileRouteTypes {
     | '/register'
     | '/schedule'
     | '/standing'
+    | '/top-scorers'
+    | '/highlights/$slug'
+    | '/news/$slug'
     | '/teams/$teamId'
   id:
     | '__root__'
@@ -132,6 +165,9 @@ export interface FileRouteTypes {
     | '/register'
     | '/schedule'
     | '/standing'
+    | '/top-scorers'
+    | '/highlights/$slug'
+    | '/news/$slug'
     | '/teams/$teamId'
   fileRoutesById: FileRoutesById
 }
@@ -139,16 +175,24 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   DivisionsRoute: typeof DivisionsRoute
-  HighlightsRoute: typeof HighlightsRoute
-  NewsRoute: typeof NewsRoute
+  HighlightsRoute: typeof HighlightsRouteWithChildren
+  NewsRoute: typeof NewsRouteWithChildren
   RegisterRoute: typeof RegisterRoute
   ScheduleRoute: typeof ScheduleRoute
   StandingRoute: typeof StandingRoute
+  TopScorersRoute: typeof TopScorersRoute
   TeamsTeamIdRoute: typeof TeamsTeamIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/top-scorers': {
+      id: '/top-scorers'
+      path: '/top-scorers'
+      fullPath: '/top-scorers'
+      preLoaderRoute: typeof TopScorersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/standing': {
       id: '/standing'
       path: '/standing'
@@ -212,18 +256,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamsTeamIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/news/$slug': {
+      id: '/news/$slug'
+      path: '/$slug'
+      fullPath: '/news/$slug'
+      preLoaderRoute: typeof NewsSlugRouteImport
+      parentRoute: typeof NewsRoute
+    }
+    '/highlights/$slug': {
+      id: '/highlights/$slug'
+      path: '/$slug'
+      fullPath: '/highlights/$slug'
+      preLoaderRoute: typeof HighlightsSlugRouteImport
+      parentRoute: typeof HighlightsRoute
+    }
   }
 }
+
+interface HighlightsRouteChildren {
+  HighlightsSlugRoute: typeof HighlightsSlugRoute
+}
+
+const HighlightsRouteChildren: HighlightsRouteChildren = {
+  HighlightsSlugRoute: HighlightsSlugRoute,
+}
+
+const HighlightsRouteWithChildren = HighlightsRoute._addFileChildren(
+  HighlightsRouteChildren,
+)
+
+interface NewsRouteChildren {
+  NewsSlugRoute: typeof NewsSlugRoute
+}
+
+const NewsRouteChildren: NewsRouteChildren = {
+  NewsSlugRoute: NewsSlugRoute,
+}
+
+const NewsRouteWithChildren = NewsRoute._addFileChildren(NewsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   DivisionsRoute: DivisionsRoute,
-  HighlightsRoute: HighlightsRoute,
-  NewsRoute: NewsRoute,
+  HighlightsRoute: HighlightsRouteWithChildren,
+  NewsRoute: NewsRouteWithChildren,
   RegisterRoute: RegisterRoute,
   ScheduleRoute: ScheduleRoute,
   StandingRoute: StandingRoute,
+  TopScorersRoute: TopScorersRoute,
   TeamsTeamIdRoute: TeamsTeamIdRoute,
 }
 export const routeTree = rootRouteImport
