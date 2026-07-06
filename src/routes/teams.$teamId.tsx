@@ -17,13 +17,13 @@ function TeamProfile() {
   if (error && !isLoading) {
     return (
       <Layout>
-        <div className="w-full bg-[#001D4C] h-[220px] flex items-center justify-center" />
-        <section className="bg-[#F7F7F7] py-[60px]">
-          <div className="max-w-[1200px] mx-auto px-6 text-center">
-            <p className="text-[14px] text-[#6B6B6B]">Team not found.</p>
+        <div className="w-full bg-[var(--cb-brand-primary)] h-[220px] flex items-center justify-center" />
+        <section className="bg-[var(--cb-surface-muted)] py-[calc(var(--cb-space-section)*2)]">
+          <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)] text-center">
+            <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)]">Team not found.</p>
             <Link
               to="/divisions"
-              className="mt-4 inline-block text-[13px] text-[#ED2D23] font-semibold hover:underline"
+              className="mt-[var(--cb-space-md)] inline-block text-[length:var(--cb-font-size-caption)] text-[var(--cb-brand-accent)] font-[var(--cb-font-weight-heading)] hover:underline"
             >
               &larr; Back to Divisions
             </Link>
@@ -41,44 +41,44 @@ function TeamProfile() {
 
   return (
     <Layout>
-      <div className="w-full bg-[#001D4C] h-[220px] flex items-center justify-center">
-        <div className="text-center px-6">
+      <div className="w-full bg-[var(--cb-brand-primary)] h-[220px] flex items-center justify-center">
+        <div className="text-center px-[var(--cb-space-xl)]">
           {team ? (
             <>
-              <div className="text-[12px] text-[#9CA3AF]">
-                <Link to="/divisions" className="hover:text-white">
+              <div className="text-[length:var(--cb-font-size-caption)] text-[var(--cb-text-muted)]">
+                <Link to="/divisions" className="hover:text-[var(--cb-text-inverse)]">
                   Divisions
                 </Link>
                 {team.divisionName && (
                   <>
-                    <span className="text-white/40 mx-2">&rsaquo;</span>
+                    <span className="text-[color-mix(in_srgb,var(--cb-text-inverse),transparent_60%)] mx-[var(--cb-space-xs)]">&rsaquo;</span>
                     <span>{team.divisionName}</span>
                   </>
                 )}
-                <span className="text-white/40 mx-2">&rsaquo;</span>
-                <span className="text-white">{team.name}</span>
+                <span className="text-[color-mix(in_srgb,var(--cb-text-inverse),transparent_60%)] mx-[var(--cb-space-xs)]">&rsaquo;</span>
+                <span className="text-[var(--cb-text-inverse)]">{team.name}</span>
               </div>
-              <div className="mx-auto mt-3 w-[72px] h-[72px] rounded-[14px] flex items-center justify-center border-2 border-white overflow-hidden">
+              <div className="mx-auto mt-[var(--cb-space-sm)] w-[72px] h-[72px] rounded-[var(--cb-radius-lg)] flex items-center justify-center border-2 border-[var(--cb-text-inverse)] overflow-hidden">
                 {team.logoUrl ? (
                   <img
                     src={team.logoUrl}
                     alt={team.name}
-                    className="w-full h-full object-contain bg-white"
+                    className="w-full h-full object-contain bg-[var(--cb-surface-panel)]"
                   />
                 ) : (
-                  <div className="w-full h-full bg-[#E5E5E5] text-[#6B6B6B] font-bold flex items-center justify-center text-[18px]">
+                  <div className="w-full h-full bg-[var(--cb-surface-muted)] text-[var(--cb-text-secondary)] font-[var(--cb-font-weight-heading)] flex items-center justify-center text-[length:var(--cb-font-size-title)]">
                     {team.initials || generateInitials(team.name)}
                   </div>
                 )}
               </div>
-              <h1 className="text-white text-[36px] font-extrabold uppercase mt-3">{team.name}</h1>
+              <h1 className="text-[var(--cb-text-inverse)] text-[length:var(--cb-font-size-screen)] font-[var(--cb-font-weight-heading)] uppercase mt-[var(--cb-space-sm)]">{team.name}</h1>
               {socialLinks && (
-                <div className="flex items-center justify-center gap-3 mt-2">
+                <div className="flex items-center justify-center gap-[var(--cb-space-sm)] mt-[var(--cb-space-xs)]">
                   {socialLinks.instagram && (
                     <a
                       href={socialLinks.instagram}
                       aria-label="Instagram"
-                      className="text-white/70 hover:text-white transition-colors"
+                      className="text-[color-mix(in_srgb,var(--cb-text-inverse),transparent_30%)] hover:text-[var(--cb-text-inverse)] transition-colors"
                     >
                       <Instagram size={18} />
                     </a>
@@ -87,7 +87,7 @@ function TeamProfile() {
                     <a
                       href={socialLinks.facebook}
                       aria-label="Facebook"
-                      className="text-white/70 hover:text-white transition-colors"
+                      className="text-[color-mix(in_srgb,var(--cb-text-inverse),transparent_30%)] hover:text-[var(--cb-text-inverse)] transition-colors"
                     >
                       <Facebook size={18} />
                     </a>
@@ -96,7 +96,7 @@ function TeamProfile() {
                     <a
                       href={socialLinks.twitter}
                       aria-label="X (Twitter)"
-                      className="text-white/70 hover:text-white transition-colors"
+                      className="text-[color-mix(in_srgb,var(--cb-text-inverse),transparent_30%)] hover:text-[var(--cb-text-inverse)] transition-colors"
                     >
                       <Twitter size={18} />
                     </a>
@@ -105,7 +105,7 @@ function TeamProfile() {
                     <a
                       href={socialLinks.website}
                       aria-label="Website"
-                      className="text-white/70 hover:text-white transition-colors"
+                      className="text-[color-mix(in_srgb,var(--cb-text-inverse),transparent_30%)] hover:text-[var(--cb-text-inverse)] transition-colors"
                     >
                       <Globe size={18} />
                     </a>
@@ -115,30 +115,30 @@ function TeamProfile() {
             </>
           ) : (
             <>
-              <Skeleton className="h-4 w-48 mx-auto bg-white/20" />
-              <Skeleton className="w-[72px] h-[72px] rounded-[14px] mx-auto mt-3 bg-white/20" />
-              <Skeleton className="h-9 w-56 mx-auto mt-3 bg-white/20" />
+              <Skeleton className="h-4 w-48 mx-auto bg-[var(--cb-surface-panel)]/20" />
+              <Skeleton className="w-[72px] h-[72px] rounded-[var(--cb-radius-lg)] mx-auto mt-[var(--cb-space-sm)] bg-[var(--cb-surface-panel)]/20" />
+              <Skeleton className="h-9 w-56 mx-auto mt-[var(--cb-space-sm)] bg-[var(--cb-surface-panel)]/20" />
             </>
           )}
         </div>
       </div>
 
-      <section className="bg-[#F7F7F7] py-[60px]">
-        <div className="max-w-[1200px] mx-auto px-6">
+      <section className="bg-[var(--cb-surface-muted)] py-[calc(var(--cb-space-section)*2)]">
+        <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)]">
           <Link
             to="/divisions"
-            className="inline-block text-[13px] text-[#6B6B6B] hover:text-[#ED2D23] mb-4"
+            className="inline-block text-[length:var(--cb-font-size-caption)] text-[var(--cb-text-secondary)] hover:text-[var(--cb-brand-accent)] mb-[var(--cb-space-md)]"
           >
             &larr; Back to Divisions
           </Link>
 
-          <h2 className="text-[22px] font-bold text-[#111] mb-5">Squad</h2>
+          <h2 className="text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] mb-[var(--cb-space-lg)]">Squad</h2>
           {isLoading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-[var(--cb-space-xl)]">
               {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="bg-white rounded-[14px] overflow-hidden">
+                <div key={i} className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-lg)] overflow-hidden">
                   <Skeleton className="aspect-[3/4] w-full rounded-none" />
-                  <div className="px-4 pt-3 pb-4 space-y-2">
+                  <div className="px-[var(--cb-space-md)] pt-[var(--cb-space-sm)] pb-[var(--cb-space-md)] space-y-[var(--cb-space-sm)]">
                     <Skeleton className="h-5 w-12" />
                     <Skeleton className="h-4 w-full" />
                     <Skeleton className="h-3 w-20" />
@@ -147,30 +147,29 @@ function TeamProfile() {
               ))}
             </div>
           ) : players.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-[var(--cb-space-xl)]">
               {players.map((p, idx) => (
                 <div
                   key={`${p.id || p.name}-${idx}`}
-                  className="bg-white rounded-[14px] overflow-hidden hover:-translate-y-1 transition-transform duration-300 flex flex-col"
-                  style={{ boxShadow: "0 4px 16px rgba(0,0,0,0.08)" }}
+                  className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-lg)] overflow-hidden hover:-translate-y-1 transition-transform duration-300 flex flex-col cb-shadow-panel"
                 >
-                  <div className="relative aspect-[3/4] bg-gradient-to-b from-[#E5E7EB] to-[#CBD5E1] flex items-center justify-center text-[#6B7280] font-bold text-[56px]">
+                  <div className="relative aspect-[3/4] bg-gradient-to-b from-[var(--cb-surface-muted)] to-[var(--cb-border-subtle)] flex items-center justify-center text-[var(--cb-text-secondary)] font-[var(--cb-font-weight-heading)] text-[length:var(--cb-font-size-screen)]">
                     {p.imageUrl ? (
                       <img src={p.imageUrl} alt={p.name} className="w-full h-full object-cover" />
                     ) : (
                       generateInitials(p.name)
                     )}
                   </div>
-                  <div className="px-4 pt-3 pb-4">
-                    <div className="flex items-center gap-1.5 text-[#111] font-extrabold text-[18px]">
-                      <span aria-hidden>&#9917;</span>
+                  <div className="px-[var(--cb-space-md)] pt-[var(--cb-space-sm)] pb-[var(--cb-space-md)]">
+                    <div className="flex items-center gap-[var(--cb-space-xs)] text-[var(--cb-text-primary)] font-[var(--cb-font-weight-heading)] text-[length:var(--cb-font-size-title)]">
+                      <span aria-hidden>{String.fromCharCode(9917)}</span>
                       <span>{p.number ?? "-"}</span>
                     </div>
-                    <h3 className="mt-2 text-[15px] font-extrabold text-[#111] leading-tight">
+                    <h3 className="mt-[var(--cb-space-xs)] text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] leading-tight">
                       {p.name}
                     </h3>
-                    <p className="text-[12px] text-[#6B6B6B] mt-0.5">{team?.name || ""}</p>
-                    <p className="mt-3 text-[11px] font-bold text-[#9CA3AF] tracking-[1.5px]">
+                    <p className="text-[length:var(--cb-font-size-caption)] text-[var(--cb-text-secondary)] mt-[calc(var(--cb-space-xs)/2)]">{team?.name || ""}</p>
+                    <p className="mt-[var(--cb-space-sm)] text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-muted)] tracking-normal">
                       {(p.position || "").toUpperCase()}
                     </p>
                   </div>
@@ -178,16 +177,16 @@ function TeamProfile() {
               ))}
             </div>
           ) : (
-            <p className="text-[14px] text-[#6B6B6B]">No players listed yet.</p>
+            <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)]">No players listed yet.</p>
           )}
 
-          <h2 className="text-[22px] font-bold text-[#111] mb-5 mt-14">Coaches</h2>
+          <h2 className="text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] mb-[var(--cb-space-lg)] mt-[calc(var(--cb-space-section)*2)]">Coaches</h2>
           {isLoading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-[var(--cb-space-xl)]">
               {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="bg-white rounded-[14px] overflow-hidden">
+                <div key={i} className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-lg)] overflow-hidden">
                   <Skeleton className="aspect-[3/4] w-full rounded-none" />
-                  <div className="px-4 pt-3 pb-4 space-y-2">
+                  <div className="px-[var(--cb-space-md)] pt-[var(--cb-space-sm)] pb-[var(--cb-space-md)] space-y-[var(--cb-space-sm)]">
                     <Skeleton className="h-4 w-full" />
                     <Skeleton className="h-3 w-20" />
                   </div>
@@ -195,26 +194,25 @@ function TeamProfile() {
               ))}
             </div>
           ) : coaches.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-[var(--cb-space-xl)]">
               {coaches.map((c, idx) => (
                 <div
                   key={`${c.id || c.name}-${idx}`}
-                  className="bg-white rounded-[14px] overflow-hidden hover:-translate-y-1 transition-transform duration-300 flex flex-col"
-                  style={{ boxShadow: "0 4px 16px rgba(0,0,0,0.08)" }}
+                  className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-lg)] overflow-hidden hover:-translate-y-1 transition-transform duration-300 flex flex-col cb-shadow-panel"
                 >
-                  <div className="relative aspect-[3/4] bg-gradient-to-b from-[#1f2a44] to-[#001D4C] flex items-center justify-center text-white font-bold text-[56px]">
+                  <div className="relative aspect-[3/4] bg-gradient-to-b from-[var(--cb-brand-secondary)] to-[var(--cb-brand-primary)] flex items-center justify-center text-[var(--cb-text-inverse)] font-[var(--cb-font-weight-heading)] text-[length:var(--cb-font-size-screen)]">
                     {c.imageUrl ? (
                       <img src={c.imageUrl} alt={c.name} className="w-full h-full object-cover" />
                     ) : (
                       generateInitials(c.name)
                     )}
                   </div>
-                  <div className="px-4 pt-3 pb-4">
-                    <h3 className="text-[15px] font-extrabold text-[#111] leading-tight">
+                  <div className="px-[var(--cb-space-md)] pt-[var(--cb-space-sm)] pb-[var(--cb-space-md)]">
+                    <h3 className="text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] leading-tight">
                       {c.name}
                     </h3>
-                    <p className="text-[12px] text-[#6B6B6B] mt-0.5">{team?.name || ""}</p>
-                    <p className="mt-3 text-[11px] font-bold text-[#9CA3AF] tracking-[1.5px] uppercase">
+                    <p className="text-[length:var(--cb-font-size-caption)] text-[var(--cb-text-secondary)] mt-[calc(var(--cb-space-xs)/2)]">{team?.name || ""}</p>
+                    <p className="mt-[var(--cb-space-sm)] text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-muted)] tracking-normal uppercase">
                       {c.role || ""}
                     </p>
                   </div>
@@ -222,7 +220,7 @@ function TeamProfile() {
               ))}
             </div>
           ) : (
-            <p className="text-[14px] text-[#6B6B6B]">No coaches listed yet.</p>
+            <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)]">No coaches listed yet.</p>
           )}
         </div>
       </section>

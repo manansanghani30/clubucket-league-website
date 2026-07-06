@@ -5,10 +5,11 @@ import {
   postPublicApi,
   normalizeTopScorer,
   normalizeSponsor,
+  normalizePublicConfig,
 } from "@/lib/public-api";
 import { getOrganizationSlug } from "@/lib/env";
 import type {
-  PublicConfig,
+  PublicConfigRaw,
   PublicDivision,
   PublicTeamDetail,
   PublicTeamDetailRaw,
@@ -49,7 +50,8 @@ export const queryKeys = {
 export function usePublicConfig() {
   return useQuery({
     queryKey: queryKeys.config,
-    queryFn: () => fetchPublicApi<PublicConfig>("/config"),
+    queryFn: () => fetchPublicApi<PublicConfigRaw>("/config"),
+    select: normalizePublicConfig,
     staleTime: 5 * 60 * 1000,
     retry: 1,
   });

@@ -1,5 +1,14 @@
 import { getApiBaseUrl, getOrganizationSlug, getPublicSurface } from "./env";
-import type { ApiEnvelope, PaginationMeta, PublicSponsor } from "@/types/public-api";
+import type {
+  ApiEnvelope,
+  PaginationMeta,
+  PublicConfig,
+  PublicConfigNavigationItem,
+  PublicConfigRaw,
+  PublicDivision,
+  PublicSeason,
+  PublicSponsor,
+} from "@/types/public-api";
 
 export class PublicApiError extends Error {
   status: number;
@@ -82,6 +91,85 @@ export async function fetchPublicApiWithMeta<T>(
 ): Promise<{ data: T; meta?: PaginationMeta }> {
   const envelope = await fetchPublicApiEnvelope<T>(path, options);
   return { data: envelope.data, meta: envelope.meta };
+}
+
+const moduleRouteMap: Record<string, string | undefined> = {
+  home: "/",
+  divisions: "/divisions",
+  schedule: "/schedule",
+  standings: "/standing",
+  news: "/news",
+  highlights: "/highlights",
+  aboutUs: "/about",
+  topScorers: "/top-scorers",
+};
+
+export function normalizePublicRoute(item: PublicConfigNavigationItem): string | undefined {
+  return moduleRouteMap[item.key];
+}
+
+export function normalizePublicConfig(raw: PublicConfigRaw): PublicConfig {
+  const enabledModules = raw.enabledModules || {};
+  const supportedLocales =
+    raw.supportedLocales?.map((item) =>
+      typeof item === "string" ? { label: item.toUpperCase(), locale: item } : item,
+    ) || [];
+  const defaultLocale = raw.defaultLocale || supportedLocales[0]?.locale || "en";
+  const navigation = (raw.navigation || [])
+    .map((item) => ({ ...item, appRoute: normalizePublicRoute(item) }))
+    .filter(
+      (item) =>
+        item.appRoute &&
+        (item.key === "home" || enabledModules[item.key] !== false),
+    ) as PublicConfig["navigation"];
+
+  return {
+    id: raw.id,
+    organizationSlug: raw.organization.slug,
+    displayName: raw.displayName || raw.organization.name || raw.organization.slug,
+    logoUrl: raw.logoUrl,
+    appIconUrl: raw.appIconUrl,
+    fallbackImageUrl: raw.fallbackImageUrl,
+    contactEmail: raw.contactEmail,
+    contactPhone: raw.contactPhone,
+    website: raw.website,
+    socialLinks: raw.socialLinks,
+    defaultLocale,
+    supportedLocales: supportedLocales.length
+      ? supportedLocales
+      : [{ label: defaultLocale.toUpperCase(), locale: defaultLocale }],
+    enabledModules,
+    activeSeasonId: raw.activeSeason?.id,
+    activeSeason: raw.activeSeason || undefined,
+    defaultDivisionId: raw.defaultDivision?.id,
+    defaultDivision: raw.defaultDivision,
+    navigation,
+    theme: raw.theme,
+    settings: raw.settings,
+    publishedAt: raw.publishedAt,
+  };
+}
+
+export function isModuleEnabled(config: PublicConfig | undefined, key: string): boolean {
+  if (!config) return true;
+  if (key === "home") return config.enabledModules.home !== false;
+  return config.enabledModules[key] === true;
+}
+
+export function getDefaultSeasonId(
+  config: PublicConfig | undefined,
+  seasons: PublicSeason[] | undefined,
+): string | undefined {
+  if (config?.activeSeasonId) return config.activeSeasonId;
+  const active = seasons?.find((s) => s.isActive || s.isCurrent);
+  return active?.id || seasons?.[0]?.id;
+}
+
+export function getDefaultDivisionId(
+  config: PublicConfig | undefined,
+  divisions: PublicDivision[] | undefined,
+): string | undefined {
+  return config?.defaultDivisionId || divisions?.[0]?.id;
 }
 
 export function normalizeContentImage(

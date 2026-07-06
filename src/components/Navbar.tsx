@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import logo from "@/assets/ligad1-logo.png";
 import { usePublicConfig } from "@/hooks/use-public-api";
 import { useLocale } from "@/lib/locale";
+import { isModuleEnabled } from "@/lib/public-api";
 
 type NavLink = { to: string; label: string; moduleKey?: string };
 
@@ -13,7 +14,12 @@ const fallbackNavLinks: NavLink[] = [
   { to: "/standing", label: "Standing", moduleKey: "standings" },
   { to: "/news", label: "News", moduleKey: "news" },
   { to: "/highlights", label: "Highlights", moduleKey: "highlights" },
-  { to: "/about", label: "About Us", moduleKey: "about" },
+  { to: "/about", label: "About Us", moduleKey: "aboutUs" },
+];
+
+const fallbackLocales = [
+  { label: "English", locale: "en" },
+  { label: "Spanish", locale: "es" },
 ];
 
 export function Navbar() {
@@ -31,85 +37,79 @@ export function Navbar() {
     return () => document.removeEventListener("mousedown", onClick);
   }, []);
 
-  const enabledModules = Array.isArray(config?.enabledModules) ? config.enabledModules : null;
-  const navLinks = enabledModules
-    ? fallbackNavLinks.filter((l) => {
-        if (l.to === "/") return true;
-        if (!l.moduleKey) return true;
-        return enabledModules.includes(l.moduleKey);
-      })
-    : fallbackNavLinks;
+  const navLinks = fallbackNavLinks.filter((l) => !l.moduleKey || isModuleEnabled(config, l.moduleKey));
 
-  const registrationEnabled = !enabledModules || enabledModules.includes("register");
+  const registrationEnabled = config?.enabledModules.register === true;
 
   const logoUrl = config?.logoUrl || logo;
+  const leagueName = config?.displayName || "LigaD1";
+  const locales = config?.supportedLocales.length ? config.supportedLocales : fallbackLocales;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-[1000] h-[68px] bg-[#001D4C] text-white">
-      <div className="max-w-[1200px] mx-auto px-6 h-full flex items-center gap-6">
-        <Link to="/" className="flex items-center gap-3 leading-none shrink-0">
-          <img src={logoUrl} alt={config?.name || "LigaD1"} className="h-12 w-auto" />
+    <header
+      className="fixed top-0 left-0 right-0 z-[1000] h-[68px] text-[var(--cb-text-inverse)] cb-section-inverse"
+    >
+      <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)] h-full flex items-center gap-[var(--cb-space-lg)]">
+        <Link to="/" className="flex items-center gap-[var(--cb-space-sm)] leading-none shrink-0">
+          <img src={logoUrl} alt={leagueName} className="h-12 w-auto" />
         </Link>
 
         <div className="flex-1" />
 
-        <nav className="flex items-center gap-7">
+        <nav className="flex items-center gap-[var(--cb-space-xl)]">
           {navLinks.map((l) => {
             const active = l.to === "/" ? pathname === "/" : pathname.startsWith(l.to);
             return (
               <Link
                 key={l.to}
                 to={l.to}
-                className="relative text-[14px] font-semibold uppercase tracking-[1.2px] transition-colors hover:text-[#ED2D23]"
-                style={{ color: active ? "#ED2D23" : "#FFFFFF" }}
+                className="relative font-[var(--cb-font-weight-heading)] uppercase tracking-normal transition-colors text-[length:var(--cb-font-size-body)] hover:text-[var(--cb-brand-accent)]"
+                style={{ color: active ? "var(--cb-brand-accent)" : "var(--cb-text-inverse)" }}
               >
                 {l.label}
                 {active && (
-                  <span className="absolute -bottom-2 left-0 right-0 h-[2px] bg-[#ED2D23]" />
+                  <span
+                    className="absolute -bottom-2 left-0 right-0 h-[2px]"
+                    style={{ background: "var(--cb-brand-accent)" }}
+                  />
                 )}
               </Link>
             );
           })}
         </nav>
 
-        <div className="flex items-center gap-4 shrink-0">
-          <div className="text-[12px] flex items-center gap-1">
-            <button
-              onClick={() => setLocale("en")}
-              className={
-                locale === "en"
-                  ? "text-white underline decoration-[#ED2D23] decoration-2 underline-offset-4"
-                  : "text-white/70"
-              }
-            >
-              EN
-            </button>
-            <span className="text-white/40">|</span>
-            <button
-              onClick={() => setLocale("es")}
-              className={
-                locale === "es"
-                  ? "text-white underline decoration-[#ED2D23] decoration-2 underline-offset-4"
-                  : "text-white/70"
-              }
-            >
-              ES
-            </button>
+        <div className="flex items-center gap-[var(--cb-space-md)] shrink-0">
+          <div className="text-[length:var(--cb-font-size-caption)] flex items-center gap-[var(--cb-space-xs)]">
+            {locales.map((item, idx) => (
+              <span key={item.locale} className="flex items-center gap-[var(--cb-space-xs)]">
+                {idx > 0 && <span className="text-[var(--cb-text-muted)]">|</span>}
+                <button
+                  onClick={() => setLocale(item.locale)}
+                  className={
+                    locale === item.locale
+                      ? "text-[var(--cb-text-inverse)] underline decoration-[var(--cb-brand-accent)] decoration-2 underline-offset-4"
+                      : "text-[var(--cb-text-muted)]"
+                  }
+                >
+                  {item.locale.toUpperCase()}
+                </button>
+              </span>
+            ))}
           </div>
           {registrationEnabled && (
             <div className="relative" ref={ref}>
               <button
                 onClick={() => setOpen((o) => !o)}
-                className="text-[13px] font-bold uppercase bg-[#ED2D23] text-white rounded-full px-5 py-2 hover:bg-[#c0241b] transition-colors"
+                className="cb-button-primary"
               >
                 Register
               </button>
               {open && (
-                <div className="absolute right-0 mt-2 w-[240px] bg-white text-[#111] border border-[#E5E5E5] rounded-lg shadow-lg overflow-hidden">
+                <div className="absolute right-0 mt-[var(--cb-space-xs)] w-[240px] cb-panel cb-shadow-panel overflow-hidden">
                   <Link
                     to="/register"
                     onClick={() => setOpen(false)}
-                    className="block text-[14px] px-5 py-3 hover:bg-[#F7F7F7]"
+                    className="block cb-body px-[var(--cb-space-lg)] py-[var(--cb-space-md)] hover:bg-[var(--cb-surface-muted)]"
                   >
                     New Team Membership
                   </Link>

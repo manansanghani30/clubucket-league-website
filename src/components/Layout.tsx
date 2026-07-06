@@ -4,7 +4,7 @@ import { MobileAppPrompt } from "./MobileAppPrompt";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col cb-page">
       <Navbar />
       <div className="pt-[68px]">
         <main className="flex-1">{children}</main>
@@ -25,13 +25,13 @@ export function PageHeader({
   subtitle?: string;
 }) {
   return (
-    <div className="w-full bg-[#001D4C] py-8 flex items-center justify-center">
-      <div className="text-center px-6">
-        {label && (
-          <div className="text-[11px] text-[#ED2D23] uppercase tracking-[2.5px] mb-3">{label}</div>
-        )}
-        <h1 className="text-white font-extrabold text-[28px] leading-tight">{title}</h1>
-        {subtitle && <p className="text-[#9CA3AF] text-[16px] mt-3">{subtitle}</p>}
+    <div className="w-full py-[var(--cb-space-xl)] flex items-center justify-center cb-section-inverse">
+      <div className="text-center px-[var(--cb-space-lg)]">
+        {label && <div className="cb-eyebrow mb-[var(--cb-space-md)]">{label}</div>}
+        <h1 className="font-[var(--cb-font-weight-heading)] leading-tight text-[length:var(--cb-font-size-screen)] text-[var(--cb-text-inverse)]">
+          {title}
+        </h1>
+        {subtitle && <p className="cb-caption mt-[var(--cb-space-md)]">{subtitle}</p>}
       </div>
     </div>
   );
@@ -48,12 +48,12 @@ export function TeamLogo({
 }) {
   return (
     <div
-      className="rounded-[8px] flex items-center justify-center font-bold shrink-0"
+      className="flex items-center justify-center font-[var(--cb-font-weight-heading)] shrink-0 cb-logo-fallback"
       style={{
         width: size,
         height: size,
-        background: dark ? "#2A2A2A" : "#E5E5E5",
-        color: dark ? "#FFFFFF" : "#6B6B6B",
+        background: dark ? "var(--cb-surface-inverse)" : "var(--cb-surface-muted)",
+        color: dark ? "var(--cb-text-inverse)" : "var(--cb-text-secondary)",
         fontSize: Math.max(10, size * 0.28),
       }}
     >

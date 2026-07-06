@@ -28,18 +28,14 @@ function News() {
   return (
     <Layout>
       <PageHeader title="News & Updates" subtitle="Latest from LigaD1" />
-      <section className="bg-[#F7F7F7] py-[60px]">
-        <div className="max-w-[1200px] mx-auto px-6">
+      <section className="bg-[var(--cb-surface-muted)] py-[calc(var(--cb-space-section)*2)]">
+        <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)]">
           {isLoading ? (
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-3 gap-[var(--cb-space-xl)]">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="bg-white rounded-[10px] overflow-hidden"
-                  style={{ boxShadow: "0 2px 12px rgba(0,0,0,0.07)" }}
-                >
+                <div key={i} className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-md)] overflow-hidden cb-shadow-panel">
                   <Skeleton className="h-[190px] w-full rounded-none" />
-                  <div className="p-5 space-y-3">
+                  <div className="p-[var(--cb-space-lg)] space-y-[var(--cb-space-md)]">
                     <Skeleton className="h-3 w-20" />
                     <Skeleton className="h-5 w-full" />
                     <Skeleton className="h-4 w-28" />
@@ -49,22 +45,22 @@ function News() {
               ))}
             </div>
           ) : error ? (
-            <div className="text-center py-10">
-              <p className="text-[14px] text-[#6B6B6B]">This section could not load.</p>
+            <div className="text-center py-[var(--cb-space-section)]">
+              <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)]">This section could not load.</p>
               <button
                 onClick={() => window.location.reload()}
-                className="mt-3 text-[13px] text-[#ED2D23] font-semibold hover:underline"
+                className="mt-[var(--cb-space-sm)] text-[length:var(--cb-font-size-caption)] text-[var(--cb-brand-accent)] font-[var(--cb-font-weight-heading)] hover:underline"
               >
                 Retry
               </button>
             </div>
           ) : items.length === 0 ? (
-            <div className="text-center py-10">
-              <p className="text-[14px] text-[#6B6B6B]">No news articles available.</p>
+            <div className="text-center py-[var(--cb-space-section)]">
+              <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)]">No news articles available.</p>
             </div>
           ) : (
             <>
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-3 gap-[var(--cb-space-xl)]">
                 {items.map((n, idx) => (
                   <Link key={`${n.id}-${idx}`} to="/news/$slug" params={{ slug: n.slug || n.id }}>
                     <NewsCard

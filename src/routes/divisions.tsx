@@ -22,26 +22,26 @@ function Divisions() {
 
   return (
     <Layout>
-      <section className="bg-[#F7F7F7] py-[60px]">
-        <div className="max-w-[1200px] mx-auto px-6 space-y-10">
+      <section className="bg-[var(--cb-surface-muted)] py-[calc(var(--cb-space-section)*2)]">
+        <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)] space-y-[var(--cb-space-section)]">
           {isLoading ? (
             <>
               <DivisionCardSkeleton />
               <DivisionCardSkeleton />
             </>
           ) : error ? (
-            <div className="text-center py-20">
-              <p className="text-[14px] text-[#6B6B6B]">This section could not load.</p>
+            <div className="text-center py-[calc(var(--cb-space-section)*2)]">
+              <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)]">This section could not load.</p>
               <button
                 onClick={() => window.location.reload()}
-                className="mt-3 text-[13px] text-[#ED2D23] font-semibold hover:underline"
+                className="mt-[var(--cb-space-sm)] text-[length:var(--cb-font-size-caption)] text-[var(--cb-brand-accent)] font-[var(--cb-font-weight-heading)] hover:underline"
               >
                 Retry
               </button>
             </div>
           ) : !data || data.length === 0 ? (
-            <div className="text-center py-20">
-              <p className="text-[15px] text-[#6B6B6B]">No divisions are published yet.</p>
+            <div className="text-center py-[calc(var(--cb-space-section)*2)]">
+              <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)]">No divisions are published yet.</p>
             </div>
           ) : (
             data.map((div, idx) => (
@@ -67,21 +67,18 @@ function DivisionCard({ division }: { division: PublicDivision }) {
   const teams = division.teams || [];
 
   return (
-    <div
-      className="bg-white rounded-[10px] overflow-hidden"
-      style={{ boxShadow: "0 2px 12px rgba(0,0,0,0.07)" }}
-    >
-      <div className="bg-[#F7F7F7] px-8 py-5 border-b border-[#E5E5E5]">
-        <h2 className="text-[22px] font-bold text-[#001D4C]">{division.name}</h2>
+    <div className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-md)] overflow-hidden cb-shadow-panel">
+      <div className="bg-[var(--cb-surface-muted)] px-[var(--cb-space-xl)] py-[var(--cb-space-lg)] border-b border-[var(--cb-border-subtle)]">
+        <h2 className="text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)] text-[var(--cb-brand-primary)]">{division.name}</h2>
       </div>
-      <div className="relative px-6 py-10">
+      <div className="relative px-[var(--cb-space-xl)] py-[var(--cb-space-section)]">
         {teams.length > 0 ? (
           <>
             <button
               type="button"
               onClick={() => scrollBy("left")}
               aria-label="Scroll left"
-              className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-[#001D4C] text-white flex items-center justify-center shadow-md hover:bg-[#ED2D23] transition-colors"
+              className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-[var(--cb-brand-primary)] text-[var(--cb-text-inverse)] flex items-center justify-center cb-shadow-panel hover:bg-[var(--cb-brand-accent)] transition-colors"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -89,7 +86,7 @@ function DivisionCard({ division }: { division: PublicDivision }) {
               type="button"
               onClick={() => scrollBy("right")}
               aria-label="Scroll right"
-              className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-[#001D4C] text-white flex items-center justify-center shadow-md hover:bg-[#ED2D23] transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-[var(--cb-brand-primary)] text-[var(--cb-text-inverse)] flex items-center justify-center cb-shadow-panel hover:bg-[var(--cb-brand-accent)] transition-colors"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -98,16 +95,15 @@ function DivisionCard({ division }: { division: PublicDivision }) {
               className="overflow-x-auto scroll-smooth"
               style={{ scrollbarWidth: "none" }}
             >
-              <div className="flex items-stretch gap-5" style={{ width: "max-content" }}>
+              <div className="flex items-stretch gap-[var(--cb-space-lg)]" style={{ width: "max-content" }}>
                 {teams.map((t, idx) => (
                   <Link
                     key={`${t.id}-${idx}`}
                     to="/teams/$teamId"
                     params={{ teamId: t.id }}
-                    className="w-[210px] shrink-0 group/team bg-white rounded-[14px] border border-[#EDEDED] hover:border-[#ED2D23] hover:-translate-y-1 transition-all duration-300 flex flex-col"
-                    style={{ boxShadow: "0 2px 10px rgba(0,0,0,0.05)" }}
+                    className="w-[210px] shrink-0 group/team bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-lg)] border border-[var(--cb-border-subtle)] hover:border-[var(--cb-brand-accent)] hover:-translate-y-1 transition-all duration-300 flex flex-col cb-shadow-panel"
                   >
-                    <div className="relative px-5 pt-5 pb-3 flex items-center justify-center h-[170px]">
+                    <div className="relative px-[var(--cb-space-lg)] pt-[var(--cb-space-lg)] pb-[var(--cb-space-sm)] flex items-center justify-center h-[170px]">
                       {t.logoUrl ? (
                         <img
                           src={t.logoUrl}
@@ -115,16 +111,16 @@ function DivisionCard({ division }: { division: PublicDivision }) {
                           className="w-[110px] h-[110px] object-contain transition-transform group-hover/team:scale-105"
                         />
                       ) : (
-                        <div className="w-[110px] h-[110px] rounded-[14px] bg-[#F3F4F6] text-[#6B6B6B] text-[20px] font-bold flex items-center justify-center transition-transform group-hover/team:scale-105">
+                        <div className="w-[110px] h-[110px] rounded-[var(--cb-radius-lg)] bg-[var(--cb-surface-muted)] text-[var(--cb-text-secondary)] text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)] flex items-center justify-center transition-transform group-hover/team:scale-105">
                           {t.initials || generateInitials(t.name)}
                         </div>
                       )}
                     </div>
-                    <div className="px-4 pb-5 text-center">
-                      <div className="text-[15px] font-bold text-[#111] leading-tight group-hover/team:text-[#ED2D23] transition-colors">
+                    <div className="px-[var(--cb-space-md)] pb-[var(--cb-space-lg)] text-center">
+                      <div className="text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] leading-tight group-hover/team:text-[var(--cb-brand-accent)] transition-colors">
                         {t.name}
                       </div>
-                      <div className="text-[12px] text-[#6B6B6B] mt-1">{division.name}</div>
+                      <div className="text-[length:var(--cb-font-size-caption)] text-[var(--cb-text-secondary)] mt-[var(--cb-space-xs)]">{division.name}</div>
                     </div>
                   </Link>
                 ))}
@@ -132,7 +128,7 @@ function DivisionCard({ division }: { division: PublicDivision }) {
             </div>
           </>
         ) : (
-          <p className="text-[14px] text-[#6B6B6B] text-center py-4">
+          <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)] text-center py-[var(--cb-space-md)]">
             No teams in this division yet.
           </p>
         )}
@@ -143,19 +139,16 @@ function DivisionCard({ division }: { division: PublicDivision }) {
 
 function DivisionCardSkeleton() {
   return (
-    <div
-      className="bg-white rounded-[10px] overflow-hidden"
-      style={{ boxShadow: "0 2px 12px rgba(0,0,0,0.07)" }}
-    >
-      <div className="bg-[#F7F7F7] px-8 py-5 border-b border-[#E5E5E5]">
+    <div className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-md)] overflow-hidden cb-shadow-panel">
+      <div className="bg-[var(--cb-surface-muted)] px-[var(--cb-space-xl)] py-[var(--cb-space-lg)] border-b border-[var(--cb-border-subtle)]">
         <Skeleton className="h-6 w-48" />
       </div>
-      <div className="px-6 py-10">
-        <div className="flex items-stretch gap-5">
+      <div className="px-[var(--cb-space-xl)] py-[var(--cb-space-section)]">
+        <div className="flex items-stretch gap-[var(--cb-space-lg)]">
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="w-[210px] shrink-0">
-              <Skeleton className="h-[170px] w-full rounded-[14px]" />
-              <div className="px-4 pb-5 mt-4 space-y-2">
+              <Skeleton className="h-[170px] w-full rounded-[var(--cb-radius-lg)]" />
+              <div className="px-[var(--cb-space-md)] pb-[var(--cb-space-lg)] mt-[var(--cb-space-md)] space-y-[var(--cb-space-sm)]">
                 <Skeleton className="h-4 w-3/4 mx-auto" />
                 <Skeleton className="h-3 w-1/2 mx-auto" />
               </div>

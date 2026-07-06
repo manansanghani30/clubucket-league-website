@@ -12,23 +12,144 @@ export type PaginationMeta = {
   totalPages?: number;
 };
 
-export type PublicConfig = {
+export type PublicConfigOrganization = {
   id: string;
   name: string;
-  description?: string;
+  slug: string;
+  status?: string;
+};
+
+export type PublicConfigLocale = {
+  label: string;
+  locale: string;
+};
+
+export type PublicConfigEnabledModules = Record<string, boolean>;
+
+export type PublicConfigNavigationItem = {
+  key: string;
+  label: string;
+  route: string;
+};
+
+export type NormalizedPublicConfigNavigationItem = PublicConfigNavigationItem & {
+  appRoute: string;
+};
+
+export type PublicConfigSeason = {
+  id: string;
+  name: string;
+  status?: string;
+  startDate?: string;
+  endDate?: string;
+};
+
+export type PublicConfigDivision = {
+  id: string;
+  name: string;
+  status?: string;
+  sortOrder?: number;
+};
+
+export type PublicTheme = {
+  media?: {
+    imageRadius?: string;
+    logoTreatment?: string;
+  };
+  radii?: Record<string, number>;
+  colors?: {
+    text?: {
+      muted?: string;
+      inverse?: string;
+      primary?: string;
+      secondary?: string;
+    };
+    brand?: {
+      accent?: string;
+      primary?: string;
+      secondary?: string;
+    };
+    border?: {
+      strong?: string;
+      subtle?: string;
+    };
+    status?: {
+      info?: string;
+      danger?: string;
+      success?: string;
+      warning?: string;
+    };
+    surface?: {
+      muted?: string;
+      panel?: string;
+      canvas?: string;
+      inverse?: string;
+    };
+  };
+  spacing?: Record<string, number>;
+  typography?: {
+    scale?: Record<string, number>;
+    bodyWeight?: number;
+    fontFamily?: string;
+    headingWeight?: number;
+  };
+};
+
+export type PublicConfigSettings = Record<string, string | number | boolean | null | undefined> & {
+  appDestinationUrl?: string;
+  seasonLabel?: string;
+  defaultTimezone?: string;
+  manualStoreBuilds?: boolean;
+};
+
+export type PublicConfigRaw = {
+  id: string;
+  organization: PublicConfigOrganization;
+  surface?: string;
+  status?: string;
+  displayName?: string;
   logoUrl?: string;
-  faviconUrl?: string;
-  defaultLocale: string;
-  supportedLocales: string[];
-  enabledModules: string[];
-  activeSeasonId?: string;
-  defaultDivisionId?: string;
+  appIconUrl?: string;
+  fallbackImageUrl?: string;
   contactEmail?: string;
   contactPhone?: string;
   website?: string;
   socialLinks?: Record<string, string>;
-  settings?: Record<string, string>;
-  theme?: Record<string, string>;
+  defaultLocale: string;
+  supportedLocales?: (PublicConfigLocale | string)[];
+  enabledModules?: PublicConfigEnabledModules;
+  activeSeason?: PublicConfigSeason | null;
+  defaultDivision?: PublicConfigDivision | null;
+  navigation?: PublicConfigNavigationItem[];
+  theme?: PublicTheme;
+  settings?: PublicConfigSettings;
+  publishedAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type PublicConfig = {
+  id: string;
+  organizationSlug: string;
+  displayName: string;
+  logoUrl?: string;
+  appIconUrl?: string;
+  fallbackImageUrl?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  website?: string;
+  socialLinks?: Record<string, string>;
+  defaultLocale: string;
+  supportedLocales: PublicConfigLocale[];
+  enabledModules: PublicConfigEnabledModules;
+  activeSeasonId?: string;
+  activeSeason?: PublicConfigSeason;
+  defaultDivisionId?: string;
+  defaultDivision?: PublicConfigDivision | null;
+  navigation: NormalizedPublicConfigNavigationItem[];
+  theme?: PublicTheme;
+  settings?: PublicConfigSettings;
+  publishedAt?: string;
 };
 
 export type PublicDivision = {

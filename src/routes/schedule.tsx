@@ -91,18 +91,20 @@ function Schedule() {
   return (
     <Layout>
       {/* Tier 1: Tabs */}
-      <div className="bg-[#001D4C]">
-        <div className="max-w-[1200px] mx-auto px-6 flex gap-2 pt-3">
+      <div className="bg-[var(--cb-brand-primary)]">
+        <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)] flex gap-[var(--cb-space-xs)] pt-[var(--cb-space-sm)]">
           {tabs.map((t) => {
             const active = view === t.id;
             return (
               <button
                 key={t.id}
                 onClick={() => setView(t.id)}
-                className="text-[13px] font-bold tracking-wider px-7 py-3 rounded-t-2xl transition-colors"
+                className="text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] tracking-normal px-[var(--cb-space-xl)] py-[var(--cb-space-sm)] rounded-t-[var(--cb-radius-lg)] transition-colors"
                 style={{
-                  background: active ? "#FFFFFF" : "transparent",
-                  color: active ? "#001D4C" : "rgba(255,255,255,0.7)",
+                  background: active ? "var(--cb-surface-panel)" : "transparent",
+                  color: active
+                    ? "var(--cb-brand-primary)"
+                    : "color-mix(in srgb, var(--cb-text-inverse), transparent 30%)",
                 }}
               >
                 {t.label}
@@ -113,14 +115,14 @@ function Schedule() {
       </div>
 
       {/* Tier 2: Dropdown filters */}
-      <div className="bg-white border-b border-[#E5E5E5] py-5">
-        <div className="max-w-[1200px] mx-auto px-6 flex flex-wrap items-center gap-3">
+      <div className="bg-[var(--cb-surface-panel)] border-b border-[var(--cb-border-subtle)] py-[var(--cb-space-lg)]">
+        <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)] flex flex-wrap items-center gap-[var(--cb-space-sm)]">
           <Select
             value={divisionId}
             onValueChange={setDivisionId}
             disabled={!divisions || divisions.length === 0}
           >
-            <SelectTrigger className="w-[220px] h-11 text-[13px] font-semibold uppercase tracking-wide border-[#D1D5DB] rounded-md bg-white text-[#111]">
+            <SelectTrigger className="w-[220px] h-11 text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] uppercase tracking-normal border-[var(--cb-border-subtle)] rounded-[var(--cb-radius-md)] bg-[var(--cb-surface-panel)] text-[var(--cb-text-primary)]">
               <SelectValue placeholder="All Divisions" />
             </SelectTrigger>
             <SelectContent>
@@ -138,7 +140,7 @@ function Schedule() {
             onValueChange={(v) => setSeasonId(v || undefined)}
             disabled={seasonsLoading || !seasons || seasons.length === 0}
           >
-            <SelectTrigger className="w-[220px] h-11 text-[13px] font-semibold uppercase tracking-wide border-[#D1D5DB] rounded-md bg-white text-[#111]">
+            <SelectTrigger className="w-[220px] h-11 text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] uppercase tracking-normal border-[var(--cb-border-subtle)] rounded-[var(--cb-radius-md)] bg-[var(--cb-surface-panel)] text-[var(--cb-text-primary)]">
               <SelectValue placeholder="Select Season" />
             </SelectTrigger>
             <SelectContent>
@@ -152,34 +154,34 @@ function Schedule() {
         </div>
       </div>
 
-      <section className="bg-[#F7F7F7] py-10">
-        <div className="max-w-[1200px] mx-auto px-6">
+      <section className="bg-[var(--cb-surface-muted)] py-[var(--cb-space-section)]">
+        <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)]">
           {isLoading ? (
-            <div className="space-y-3">
+            <div className="space-y-[var(--cb-space-md)]">
               {[1, 2, 3].map((i) => (
-                <Skeleton key={i} className="h-28 w-full rounded-[10px]" />
+                <Skeleton key={i} className="h-28 w-full rounded-[var(--cb-radius-md)]" />
               ))}
             </div>
           ) : error ? (
-            <div className="text-center py-10">
-              <p className="text-[14px] text-[#6B6B6B]">This section could not load.</p>
+            <div className="text-center py-[var(--cb-space-section)]">
+              <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)]">This section could not load.</p>
               <button
                 onClick={() => window.location.reload()}
-                className="mt-3 text-[13px] text-[#ED2D23] font-semibold hover:underline"
+                className="mt-[var(--cb-space-sm)] text-[length:var(--cb-font-size-caption)] text-[var(--cb-brand-accent)] font-[var(--cb-font-weight-heading)] hover:underline"
               >
                 Retry
               </button>
             </div>
           ) : fixtures.length === 0 ? (
-            <div className="text-center py-10">
-              <p className="text-[14px] text-[#6B6B6B]">No fixtures found for this filter.</p>
+            <div className="text-center py-[var(--cb-space-section)]">
+              <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)]">No fixtures found for this filter.</p>
             </div>
           ) : (
-            <div className="mb-12">
+            <div className="mb-[calc(var(--cb-space-xl)*2)]">
               {groupedFixtures.map(([groupKey, groupFixtures]) => (
-                <div key={groupKey} className="mb-6">
-                  <div className="bg-[#ECECEC] rounded-md px-5 py-2.5 mb-3">
-                    <span className="text-[12px] uppercase font-bold text-[#111] tracking-wider">
+                <div key={groupKey} className="mb-[var(--cb-space-lg)]">
+                  <div className="bg-[var(--cb-surface-muted)] rounded-[var(--cb-radius-md)] px-[var(--cb-space-lg)] py-[var(--cb-space-sm)] mb-[var(--cb-space-sm)]">
+                    <span className="text-[length:var(--cb-font-size-caption)] uppercase font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] tracking-normal">
                       {groupKey.length === 10 ? formatGroupDate(groupKey) : groupKey}
                     </span>
                   </div>
@@ -218,12 +220,12 @@ function TeamLogoImg({ team }: { team: { logoUrl?: string; shortCode?: string; n
       <img
         src={team.logoUrl}
         alt={team.name}
-        className="w-10 h-10 rounded-[8px] object-contain border border-[#E5E5E5]"
+        className="w-10 h-10 rounded-[var(--cb-radius-md)] object-contain border border-[var(--cb-border-subtle)]"
       />
     );
   }
   return (
-    <div className="w-10 h-10 rounded-[8px] bg-[#F3F4F6] text-[#6B6B6B] text-[11px] font-bold flex items-center justify-center border border-[#E5E5E5]">
+    <div className="w-10 h-10 rounded-[var(--cb-radius-md)] bg-[var(--cb-surface-muted)] text-[var(--cb-text-secondary)] text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] flex items-center justify-center border border-[var(--cb-border-subtle)]">
       {team.shortCode || generateInitials(team.name)}
     </div>
   );
@@ -231,19 +233,19 @@ function TeamLogoImg({ team }: { team: { logoUrl?: string; shortCode?: string; n
 
 function MatchCard({ m }: { m: PublicFixture }) {
   const statusPill =
-    m.status === "completed" ? "bg-[#F0FFF4] text-[#166534]" : "bg-[#F3F4F6] text-[#6B7280]";
+    m.status === "completed" ? "bg-[color-mix(in_srgb,var(--cb-status-success),transparent_86%)] text-[var(--cb-status-success)]" : "bg-[var(--cb-surface-muted)] text-[var(--cb-text-secondary)]";
   const statusLabel =
     m.status === "completed" ? "Completed" : m.status === "scheduled" ? "Upcoming" : m.status;
 
   return (
-    <div className="bg-white border border-[#E5E5E5] rounded-[10px] px-7 py-5 mb-2.5">
-      <div className="flex items-center gap-4">
+    <div className="bg-[var(--cb-surface-panel)] border border-[var(--cb-border-subtle)] rounded-[var(--cb-radius-md)] px-[var(--cb-space-xl)] py-[var(--cb-space-lg)] mb-[var(--cb-space-xs)].5">
+      <div className="flex items-center gap-[var(--cb-space-md)]">
         <div className="w-[15%] text-center">
-          <div className="text-[13px] font-bold text-[#111]">{formatDate(m.matchDate)}</div>
-          {m.kickoffTime && <div className="text-[12px] text-[#9CA3AF]">{m.kickoffTime}</div>}
+          <div className="text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)]">{formatDate(m.matchDate)}</div>
+          {m.kickoffTime && <div className="text-[length:var(--cb-font-size-caption)] text-[var(--cb-text-muted)]">{m.kickoffTime}</div>}
         </div>
-        <div className="w-[25%] flex items-center justify-end gap-2.5">
-          <span className="text-[15px] font-semibold text-[#111] text-right">
+        <div className="w-[25%] flex items-center justify-end gap-[var(--cb-space-sm)]">
+          <span className="text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] text-right">
             {m.homeTeam.name}
           </span>
           <TeamLogoImg team={m.homeTeam} />
@@ -252,27 +254,27 @@ function MatchCard({ m }: { m: PublicFixture }) {
           {m.status === "completed" &&
           m.result?.homeScore != null &&
           m.result?.awayScore != null ? (
-            <div className="text-[28px] font-extrabold text-[#111]">
+            <div className="text-[length:var(--cb-font-size-screen)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)]">
               {m.result.homeScore} &ndash; {m.result.awayScore}
             </div>
           ) : (
-            <div className="text-[20px] text-[#9CA3AF]">vs</div>
+            <div className="text-[length:var(--cb-font-size-title)] text-[var(--cb-text-muted)]">vs</div>
           )}
         </div>
-        <div className="w-[25%] flex items-center gap-2.5">
+        <div className="w-[25%] flex items-center gap-[var(--cb-space-sm)]">
           <TeamLogoImg team={m.awayTeam} />
-          <span className="text-[15px] font-semibold text-[#111]">{m.awayTeam.name}</span>
+          <span className="text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)]">{m.awayTeam.name}</span>
         </div>
         <div className="w-[15%] text-right">
           <span
-            className={`inline-block text-[11px] font-semibold px-3 py-1 rounded-full ${statusPill}`}
+            className={`inline-block text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] px-[var(--cb-space-sm)] py-[var(--cb-space-xs)] rounded-full ${statusPill}`}
           >
             {statusLabel}
           </span>
         </div>
       </div>
       {m.venue?.name && (
-        <div className="mt-3 pt-3 border-t border-[#F0F0F0] flex items-center justify-center gap-1.5 text-[12px] text-[#6B7280]">
+        <div className="mt-[var(--cb-space-sm)] pt-[var(--cb-space-sm)] border-t border-[var(--cb-border-subtle)] flex items-center justify-center gap-[var(--cb-space-xs)] text-[length:var(--cb-font-size-caption)] text-[var(--cb-text-secondary)]">
           <MapPin className="w-3.5 h-3.5" />
           <span>{m.venue.name}</span>
         </div>

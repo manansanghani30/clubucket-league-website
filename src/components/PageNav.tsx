@@ -18,7 +18,7 @@ export function PageNav({
   if (totalPages <= 1) return null;
 
   return (
-    <Pagination className="mt-10">
+    <Pagination className="mt-[var(--cb-space-section)]">
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
@@ -35,8 +35,10 @@ export function PageNav({
             <button
               onClick={() => onPageChange(p)}
               className={
-                "flex h-9 w-9 items-center justify-center rounded-md text-[13px] font-semibold " +
-                (p === page ? "bg-[#001D4C] text-white" : "text-[#6B6B6B] hover:bg-[#F3F4F6]")
+                "flex h-9 w-9 items-center justify-center font-[var(--cb-font-weight-heading)] cb-pill " +
+                (p === page
+                  ? "bg-[var(--cb-brand-primary)] text-[var(--cb-text-inverse)]"
+                  : "text-[var(--cb-text-secondary)] hover:bg-[var(--cb-surface-muted)]")
               }
             >
               {p}

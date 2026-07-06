@@ -25,34 +25,39 @@ export function MobileAppPrompt() {
 
   if (!show || !appDestinationUrl) return null;
 
-  const leagueName = config?.name || "LigaD1";
+  const leagueName = config?.displayName || "LigaD1";
 
   return (
     <div
-      className="fixed inset-0 z-[2000] flex items-center justify-center px-6"
-      style={{ background: "rgba(0,0,0,0.80)", backdropFilter: "blur(8px)" }}
+      className="fixed inset-0 z-[2000] flex items-center justify-center px-[var(--cb-space-xl)]"
+      style={{
+        background: "color-mix(in srgb, var(--cb-surface-inverse), transparent 20%)",
+        backdropFilter: "blur(8px)",
+      }}
     >
-      <div className="bg-white rounded-2xl p-10 max-w-[340px] w-full text-center shadow-2xl">
-        <div className="w-20 h-20 rounded-full bg-[#ED2D23] text-white text-2xl font-bold flex items-center justify-center mx-auto">
+      <div className="cb-panel cb-shadow-panel p-[calc(var(--cb-space-xl)+var(--cb-space-lg))] max-w-[340px] w-full text-center">
+        <div
+          className="w-20 h-20 rounded-full text-[var(--cb-text-inverse)] text-2xl font-[var(--cb-font-weight-heading)] flex items-center justify-center mx-auto bg-[var(--cb-brand-accent)]"
+        >
           L1
         </div>
-        <h3 className="text-[17px] font-bold text-[#111] mt-5">
+        <h3 className="cb-title mt-[var(--cb-space-lg)]">
           For the best live experience &mdash;
         </h3>
-        <p className="text-[14px] text-[#6B6B6B] mt-3">
+        <p className="cb-body mt-[var(--cb-space-md)]">
           Get the fastest push notifications and live stats for all games.
         </p>
         <a
           href={appDestinationUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full mt-7 bg-[#ED2D23] text-white rounded-full py-3 text-[14px] font-bold uppercase text-center"
+          className="cb-button-primary w-full mt-[var(--cb-space-xl)] text-center"
         >
           Get the {leagueName} App
         </a>
         <button
           onClick={dismiss}
-          className="block mt-4 text-[13px] text-[#6B6B6B] hover:underline mx-auto"
+          className="block mt-[var(--cb-space-lg)] cb-body hover:underline mx-auto"
         >
           Continue in browser &rarr;
         </button>

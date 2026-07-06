@@ -55,28 +55,28 @@ function About() {
     <Layout>
       <PageHeader title="About Us" subtitle="The story behind LigaD1" />
 
-      <section className="bg-white py-20">
-        <div className="max-w-[1200px] mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+      <section className="bg-[var(--cb-surface-panel)] py-[calc(var(--cb-space-section)*2)]">
+        <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)] grid md:grid-cols-2 gap-[calc(var(--cb-space-xl)*2)] items-center">
           {isLoading ? (
             <>
-              <div className="space-y-4">
+              <div className="space-y-[var(--cb-space-lg)]">
                 <Skeleton className="h-4 w-28" />
                 <Skeleton className="h-10 w-72" />
                 <Skeleton className="h-20 w-full" />
                 <Skeleton className="h-20 w-full" />
               </div>
-              <Skeleton className="h-[400px] w-full rounded-xl" />
+              <Skeleton className="h-[400px] w-full rounded-[var(--cb-radius-lg)]" />
             </>
           ) : (
             <>
               <div>
-                <div className="text-[#ED2D23] text-[14px] font-extrabold uppercase tracking-[2.5px]">
+                <div className="text-[var(--cb-brand-accent)] text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)] uppercase tracking-normal">
                   Who We Are
                 </div>
-                <h2 className="text-[32px] font-bold text-[#111] mt-3">{heroTitle}</h2>
-                <p className="text-[15px] text-[#6B6B6B] leading-[1.7] mt-5">{heroSummary}</p>
+                <h2 className="text-[length:var(--cb-font-size-screen)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] mt-[var(--cb-space-sm)]">{heroTitle}</h2>
+                <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)] leading-[1.7] mt-[var(--cb-space-lg)]">{heroSummary}</p>
               </div>
-              <div className="rounded-xl overflow-hidden">
+              <div className="rounded-[var(--cb-radius-lg)] overflow-hidden">
                 <img src={heroImage} alt="LigaD1" className="w-full h-full object-cover" />
               </div>
             </>
@@ -84,27 +84,19 @@ function About() {
         </div>
       </section>
 
-      <section className="bg-[#F7F7F7] py-20">
-        <div className="max-w-[1200px] mx-auto px-6 grid md:grid-cols-3 gap-6">
+      <section className="bg-[var(--cb-surface-muted)] py-[calc(var(--cb-space-section)*2)]">
+        <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)] grid md:grid-cols-3 gap-[var(--cb-space-xl)]">
           {isLoading
             ? Array.from({ length: 3 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="bg-white rounded-[10px] p-6"
-                  style={{ boxShadow: "0 2px 12px rgba(0,0,0,0.07)" }}
-                >
-                  <Skeleton className="h-5 w-28 mb-3" />
+                <div key={i} className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-md)] p-[var(--cb-space-xl)] cb-shadow-panel">
+                  <Skeleton className="h-5 w-28 mb-[var(--cb-space-sm)]" />
                   <Skeleton className="h-16 w-full" />
                 </div>
               ))
             : sections.map((s) => (
-                <div
-                  key={s.title}
-                  className="bg-white rounded-[10px] p-6"
-                  style={{ boxShadow: "0 2px 12px rgba(0,0,0,0.07)" }}
-                >
-                  <h3 className="text-[18px] font-bold text-[#001D4C]">{s.title}</h3>
-                  <p className="text-[14px] text-[#6B6B6B] leading-[1.7] mt-3">{s.body}</p>
+                <div key={s.title} className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-md)] p-[var(--cb-space-xl)] cb-shadow-panel">
+                  <h3 className="text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)] text-[var(--cb-brand-primary)]">{s.title}</h3>
+                  <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)] leading-[1.7] mt-[var(--cb-space-sm)]">{s.body}</p>
                 </div>
               ))}
         </div>

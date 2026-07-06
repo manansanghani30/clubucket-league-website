@@ -52,9 +52,9 @@ function TopScorers() {
     <Layout>
       <PageHeader title="Top Scorers" subtitle="Leading goal-scorers across the league." />
 
-      <section className="bg-white py-10">
-        <div className="max-w-[1200px] mx-auto px-6">
-          <div className="flex items-center gap-4 mb-8">
+      <section className="bg-[var(--cb-surface-panel)] py-[var(--cb-space-section)]">
+        <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)]">
+          <div className="flex items-center gap-[var(--cb-space-md)] mb-[var(--cb-space-xl)]">
             {seasons && seasons.length > 0 && (
               <Select
                 value={seasonId || ""}
@@ -99,26 +99,26 @@ function TopScorers() {
             )}
           </div>
 
-          <div className="overflow-hidden rounded-md border border-[#E5E5E5]">
+          <div className="overflow-hidden rounded-[var(--cb-radius-md)] border border-[var(--cb-border-subtle)]">
             <table className="w-full border-collapse">
               <thead>
-                <tr className="bg-[#1FA13B] text-[#0B1F12] text-[13px] font-extrabold uppercase tracking-wider h-14">
-                  <th className="w-[8%] text-left pl-8">#</th>
+                <tr className="bg-[var(--cb-status-success)] text-[var(--cb-text-primary)] text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] uppercase tracking-normal h-14">
+                  <th className="w-[8%] text-left pl-[var(--cb-space-xl)]">#</th>
                   <th className="w-[36%] text-left">Player</th>
                   <th className="w-[22%] text-left">Team</th>
                   <th className="w-[22%] text-left">Position</th>
-                  <th className="w-[12%] text-left pr-8">Goals</th>
+                  <th className="w-[12%] text-left pr-[var(--cb-space-xl)]">Goals</th>
                 </tr>
               </thead>
               <tbody>
                 {isLoading ? (
                   Array.from({ length: 8 }).map((_, i) => (
-                    <tr key={i} className="border-t border-[#EDEDED]" style={{ height: 72 }}>
-                      <td className="pl-8">
+                    <tr key={i} className="border-t border-[var(--cb-border-subtle)]" style={{ height: 72 }}>
+                      <td className="pl-[var(--cb-space-xl)]">
                         <Skeleton className="h-5 w-6" />
                       </td>
                       <td>
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-[var(--cb-space-md)]">
                           <Skeleton className="w-12 h-12 rounded-full" />
                           <Skeleton className="h-5 w-36" />
                         </div>
@@ -129,26 +129,26 @@ function TopScorers() {
                       <td>
                         <Skeleton className="h-5 w-20" />
                       </td>
-                      <td className="pr-8">
+                      <td className="pr-[var(--cb-space-xl)]">
                         <Skeleton className="h-5 w-8" />
                       </td>
                     </tr>
                   ))
                 ) : error ? (
-                  <tr className="border-t border-[#EDEDED]" style={{ height: 72 }}>
-                    <td colSpan={5} className="text-center text-[14px] text-[#6B6B6B] py-10">
+                  <tr className="border-t border-[var(--cb-border-subtle)]" style={{ height: 72 }}>
+                    <td colSpan={5} className="text-center text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)] py-[var(--cb-space-section)]">
                       This section could not load.
                       <button
                         onClick={() => window.location.reload()}
-                        className="ml-2 text-[13px] text-[#ED2D23] font-semibold hover:underline"
+                        className="ml-[var(--cb-space-xs)] text-[length:var(--cb-font-size-caption)] text-[var(--cb-brand-accent)] font-[var(--cb-font-weight-heading)] hover:underline"
                       >
                         Retry
                       </button>
                     </td>
                   </tr>
                 ) : !scorers || scorers.length === 0 ? (
-                  <tr className="border-t border-[#EDEDED]" style={{ height: 72 }}>
-                    <td colSpan={5} className="text-center text-[14px] text-[#6B6B6B] py-16">
+                  <tr className="border-t border-[var(--cb-border-subtle)]" style={{ height: 72 }}>
+                    <td colSpan={5} className="text-center text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)] py-[calc(var(--cb-space-section)*2)]">
                       No top scorers found for the selected filters.
                     </td>
                   </tr>
@@ -170,27 +170,27 @@ function TopScorers() {
 
 function Row({ s }: { s: PublicTopScorer }) {
   return (
-    <tr className="border-t border-[#EDEDED] bg-white hover:bg-[#FAFAFA]" style={{ height: 72 }}>
-      <td className="pl-8 text-[15px] text-[#111]">{s.rank}</td>
+    <tr className="border-t border-[var(--cb-border-subtle)] bg-[var(--cb-surface-panel)] hover:bg-[var(--cb-surface-muted)]" style={{ height: 72 }}>
+      <td className="pl-[var(--cb-space-xl)] text-[length:var(--cb-font-size-body)] text-[var(--cb-text-primary)]">{s.rank}</td>
       <td>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-[var(--cb-space-md)]">
           {s.imageUrl ? (
             <img
               src={s.imageUrl}
               alt={s.playerName}
-              className="w-12 h-12 rounded-full object-cover border border-[#E5E5E5]"
+              className="w-12 h-12 rounded-full object-cover border border-[var(--cb-border-subtle)]"
             />
           ) : (
-            <div className="w-12 h-12 rounded-full bg-[#F3F4F6] text-[#6B6B6B] text-[13px] font-bold flex items-center justify-center border border-[#E5E5E5]">
+            <div className="w-12 h-12 rounded-full bg-[var(--cb-surface-muted)] text-[var(--cb-text-secondary)] text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] flex items-center justify-center border border-[var(--cb-border-subtle)]">
               {generateInitials(s.playerName)}
             </div>
           )}
-          <span className="text-[15px] font-semibold text-[#111]">{s.playerName}</span>
+          <span className="text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)]">{s.playerName}</span>
         </div>
       </td>
-      <td className="text-[15px] text-[#111]">{s.teamName || "-"}</td>
-      <td className="text-[15px] text-[#6B6B6B]">{s.position || "-"}</td>
-      <td className="pr-8 text-[15px] font-bold text-[#111]">{s.goals}</td>
+      <td className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-primary)]">{s.teamName || "-"}</td>
+      <td className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)]">{s.position || "-"}</td>
+      <td className="pr-[var(--cb-space-xl)] text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)]">{s.goals}</td>
     </tr>
   );
 }
