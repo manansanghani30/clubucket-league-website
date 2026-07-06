@@ -88,10 +88,10 @@ Known likely gap:
 ### Module 1: Bootstrap And Base Runtime Config
 
 - [ ] Confirm `public_web` config is the source for league resolution, website enabled status, navigation defaults, default locale, supported locales, active season, default division, and feature settings.
-- [x] Add `GET /api/v1/public/website-bootstrap?hostname=:hostname`.
-- [x] Resolve active `public_website` domains to organization slug and published `public_web` config.
-- [x] Generate default public website domains for new leagues using `PUBLIC_WEBSITE_DOMAIN_SUFFIX`.
-- [x] Add League Admin website domain settings for temporary hostname display and custom domain storage.
+- [ ] Add `GET /api/v1/public/website-bootstrap?hostname=:hostname`.
+- [ ] Resolve active `public_website` domains to organization slug and published `public_web` config.
+- [ ] Generate default public website domains for new leagues using `PUBLIC_WEBSITE_DOMAIN_SUFFIX`.
+- [ ] Add League Admin website domain settings for temporary hostname display and custom domain storage.
 - [ ] Use `/api/v1/league-admin/public-config/public_web` for League Admin config reads/writes.
 - [ ] Use `/api/v1/public/organizations/:organizationSlug/config?surface=public_web` after hostname bootstrap when the frontend needs to refresh config by slug.
 - [ ] Use `/api/v1/public/organizations/:organizationSlug/home?surface=public_web` for home-page startup data.
