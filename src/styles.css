@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -5,7 +6,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: var(--cb-font-family);
+  --font-sans: 'DM Sans', sans-serif;
   --spacing: var(--cb-space-xs);
   --radius-sm: var(--cb-radius-sm);
   --radius-md: var(--cb-radius-md);
@@ -74,7 +75,7 @@
     border-color: var(--color-border);
   }
   html, body {
-    font-family: var(--cb-font-family);
+    font-family: 'DM Sans', sans-serif;
     background-color: var(--cb-surface-canvas);
     color: var(--cb-text-primary);
   }

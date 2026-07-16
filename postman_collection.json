@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Clubbucket Backend",
-    "description": "Ready-to-use API collection for the Clubbucket backend. Run the backend, apply migrations, run `npm run db:seed`, then run Setup > Health, Auth > Login - Super Admin, Auth > Login - League Admin, and the portal login requests as needed. Login and create requests save tokens and IDs automatically. Includes League Admin CMS app config/categories/items, direct logo/media URL examples, and unauthenticated public mobile fan app read APIs, and League Admin white-label branding bootstrap APIs.",
+    "description": "Ready-to-use API collection for the Clubbucket backend. Run the backend, apply migrations, run `npm run db:seed`, then run Setup > Health, Auth > Login - Super Admin, Auth > Login - League Admin, and the portal login requests as needed. Login and create requests save tokens and IDs automatically. Includes League Admin CMS app config/categories/items, direct logo/media URL examples, and unauthenticated public mobile fan app read APIs, public website inquiry submission, and League Admin white-label branding bootstrap APIs.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "event": [
@@ -411,6 +411,10 @@
     {
       "key": "adminHostname",
       "value": "ligad1-admin.clubbucket.local"
+    },
+    {
+      "key": "publicInquiryId",
+      "value": ""
     }
   ],
   "item": [
@@ -8749,7 +8753,7 @@
     },
     {
       "name": "Public Mobile Fan App",
-      "description": "Unauthenticated public read endpoints consumed by the reusable mobile fan app template plus League Admin white-label branding bootstrap. Public responses must be organization-scoped and public-safe.",
+      "description": "Unauthenticated public endpoints consumed by the reusable mobile fan app template, public website inquiry form, and League Admin white-label branding bootstrap. Public responses must be organization-scoped and public-safe.",
       "item": [
         {
           "name": "Get Public Admin Branding",
@@ -8822,6 +8826,49 @@
                   "pm.test('get public home succeeded', function () {",
                   "  pm.expect(body.success).to.equal(true);",
                   "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Submit Public Team Inquiry",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"teamName\": \"Postman Public Inquiry {{$timestamp}}\",\n  \"city\": \"Leon\",\n  \"contactName\": \"Postman Contact\",\n  \"contactRole\": \"Team Manager\",\n  \"contactEmail\": \"postman-public-inquiry-{{$timestamp}}@example.test\",\n  \"contactPhone\": \"+52 555 100 1000\",\n  \"divisionInterestId\": null,\n  \"aboutTeam\": \"We are interested in joining the league.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/public/organizations/{{organizationSlug}}/inquiries?surface=public_web",
+            "description": "Submits a public website New Team Membership inquiry. Requires published public_web config with settings.registrationEnabled=true."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('submit public team inquiry returns 201', function () { pm.response.to.have.status(201); });",
+                  "const body = pm.response.json();",
+                  "pm.test('submit public team inquiry succeeded', function () {",
+                  "  pm.expect(body.success).to.equal(true);",
+                  "  pm.expect(body.data.status).to.equal('pending');",
+                  "});",
+                  "pm.test('public inquiry response is acknowledgement only', function () {",
+                  "  pm.expect(Object.keys(body.data).sort()).to.eql(['id', 'status', 'submittedAt']);",
+                  "});",
+                  "if (body.data && body.data.id) pm.collectionVariables.set('publicInquiryId', body.data.id);"
                 ]
               }
             }

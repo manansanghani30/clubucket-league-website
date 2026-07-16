@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { CheckCircle2, Check, AlertCircle } from "lucide-react";
 import { Layout, PageHeader } from "@/components/Layout";
-import { useCreateInquiry } from "@/hooks/use-public-api";
+import { useCreateInquiry, usePublicDivisions } from "@/hooks/use-public-api";
 
 export const Route = createFileRoute("/register")({
   head: () => ({
@@ -16,11 +16,13 @@ export const Route = createFileRoute("/register")({
 
 const inputCls =
   "w-full h-10 px-[var(--cb-space-md)] text-[length:var(--cb-font-size-body)] border border-[var(--cb-border-subtle)] rounded-[var(--cb-radius-md)] focus:outline-none focus:border-[var(--cb-text-primary)] disabled:opacity-50";
-const labelCls = "block text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] mb-[var(--cb-space-xs)].5";
+const labelCls =
+  "block text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] mb-[var(--cb-space-xs)].5";
 
 function Register() {
   const [submitted, setSubmitted] = useState(false);
   const inquiry = useCreateInquiry();
+  const { data: divisions, isLoading: divisionsLoading } = usePublicDivisions();
 
   const [form, setForm] = useState({
     teamName: "",
@@ -41,7 +43,10 @@ function Register() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     try {
-      await inquiry.mutateAsync(form);
+      await inquiry.mutateAsync({
+        ...form,
+        divisionInterestId: form.divisionInterestId || null,
+      });
       setSubmitted(true);
     } catch {
       // error state handled via inquiry.error
@@ -57,7 +62,9 @@ function Register() {
             {submitted ? (
               <div className="text-center py-[var(--cb-space-section)]">
                 <CheckCircle2 size={40} className="text-[var(--cb-status-success)] mx-auto" />
-                <h3 className="text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)] mt-[var(--cb-space-md)]">Request Submitted!</h3>
+                <h3 className="text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)] mt-[var(--cb-space-md)]">
+                  Request Submitted!
+                </h3>
                 <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)] mt-[var(--cb-space-sm)] max-w-md mx-auto">
                   Thank you for your interest. Our team will review your application and reach out
                   within 3–5 business days.
@@ -71,7 +78,9 @@ function Register() {
               </div>
             ) : (
               <form onSubmit={handleSubmit}>
-                <h2 className="text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)]">Team Registration Request</h2>
+                <h2 className="text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)]">
+                  Team Registration Request
+                </h2>
                 <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)] mt-[var(--cb-space-xs)]">
                   Fill in the details below and our team will get back to you within 3–5 business
                   days.
@@ -79,7 +88,10 @@ function Register() {
 
                 {inquiry.error && (
                   <div className="mt-[var(--cb-space-lg)] flex items-start gap-[var(--cb-space-sm)] bg-[color-mix(in_srgb,var(--cb-status-danger),transparent_86%)] border border-[var(--cb-status-danger)] rounded-[var(--cb-radius-md)] px-[var(--cb-space-md)] py-[var(--cb-space-sm)]">
-                    <AlertCircle size={16} className="text-[var(--cb-status-danger)] shrink-0 mt-[calc(var(--cb-space-xs)/2)]" />
+                    <AlertCircle
+                      size={16}
+                      className="text-[var(--cb-status-danger)] shrink-0 mt-[calc(var(--cb-space-xs)/2)]"
+                    />
                     <p className="text-[length:var(--cb-font-size-caption)] text-[var(--cb-status-danger)]">
                       {inquiry.error instanceof Error
                         ? inquiry.error.message
@@ -162,11 +174,16 @@ function Register() {
                       className={inputCls}
                       value={form.divisionInterestId}
                       onChange={set("divisionInterestId")}
-                      disabled={inquiry.isPending}
+                      disabled={inquiry.isPending || divisionsLoading}
                     >
-                      <option value="">No Preference</option>
-                      <option value="Bajío Zone">Bajío Zone</option>
-                      <option value="Downtown Area">Downtown Area</option>
+                      <option value="">
+                        {divisionsLoading ? "Loading divisions..." : "No Preference"}
+                      </option>
+                      {divisions?.map((division) => (
+                        <option key={division.id} value={division.id}>
+                          {division.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div>
@@ -198,7 +215,9 @@ function Register() {
           </div>
 
           <aside className="bg-[var(--cb-brand-primary)] rounded-[var(--cb-radius-md)] p-[var(--cb-space-xl)] text-[var(--cb-text-inverse)] h-fit">
-            <h3 className="text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)]">Why Join LigaD1?</h3>
+            <h3 className="text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)]">
+              Why Join LigaD1?
+            </h3>
             <ul className="mt-[var(--cb-space-lg)] space-y-[var(--cb-space-lg)]">
               {[
                 "Compete in one of Mexico's most organised semi-professional leagues",
@@ -206,14 +225,23 @@ function Register() {
                 "Exposure for your players and club to scouts and fans across the region",
               ].map((t) => (
                 <li key={t} className="flex gap-[var(--cb-space-sm)]">
-                  <Check size={16} className="text-[var(--cb-brand-accent)] shrink-0 mt-[calc(var(--cb-space-xs)/2)]" />
-                  <span className="text-[length:var(--cb-font-size-body)] text-[color-mix(in_srgb,var(--cb-text-inverse),transparent_15%)] leading-[1.7]">{t}</span>
+                  <Check
+                    size={16}
+                    className="text-[var(--cb-brand-accent)] shrink-0 mt-[calc(var(--cb-space-xs)/2)]"
+                  />
+                  <span className="text-[length:var(--cb-font-size-body)] text-[color-mix(in_srgb,var(--cb-text-inverse),transparent_15%)] leading-[1.7]">
+                    {t}
+                  </span>
                 </li>
               ))}
             </ul>
             <div className="h-px bg-[var(--cb-surface-panel)]/10 my-[var(--cb-space-xl)]" />
-            <p className="text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)]">Have questions?</p>
-            <p className="text-[length:var(--cb-font-size-caption)] text-[var(--cb-text-muted)] mt-[var(--cb-space-xs)]">info@ligad1.com</p>
+            <p className="text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)]">
+              Have questions?
+            </p>
+            <p className="text-[length:var(--cb-font-size-caption)] text-[var(--cb-text-muted)] mt-[var(--cb-space-xs)]">
+              info@ligad1.com
+            </p>
           </aside>
         </div>
       </section>

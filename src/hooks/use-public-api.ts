@@ -281,7 +281,7 @@ export function usePublicAbout(locale: string) {
 export type CreateInquiryBody = {
   teamName?: string;
   city?: string;
-  divisionInterestId?: string;
+  divisionInterestId?: string | null;
   contactName?: string;
   contactRole?: string;
   contactEmail?: string;
@@ -289,8 +289,15 @@ export type CreateInquiryBody = {
   aboutTeam?: string;
 };
 
+export type CreateInquiryResponse = {
+  id: string;
+  status: string;
+  submittedAt: string;
+};
+
 export function useCreateInquiry() {
   return useMutation({
-    mutationFn: (body: CreateInquiryBody) => postPublicApi<{ id: string }>("/inquiries", body),
+    mutationFn: (body: CreateInquiryBody) =>
+      postPublicApi<CreateInquiryResponse>("/inquiries", body),
   });
 }

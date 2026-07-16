@@ -37,18 +37,16 @@ export function Navbar() {
     return () => document.removeEventListener("mousedown", onClick);
   }, []);
 
-  const navLinks = fallbackNavLinks.filter((l) => !l.moduleKey || isModuleEnabled(config, l.moduleKey));
-
-  const registrationEnabled = config?.enabledModules.register === true;
+  const navLinks = fallbackNavLinks.filter(
+    (l) => !l.moduleKey || isModuleEnabled(config, l.moduleKey),
+  );
 
   const logoUrl = config?.logoUrl || logo;
   const leagueName = config?.displayName || "LigaD1";
   const locales = config?.supportedLocales.length ? config.supportedLocales : fallbackLocales;
 
   return (
-    <header
-      className="fixed top-0 left-0 right-0 z-[1000] h-[68px] text-[var(--cb-text-inverse)] cb-section-inverse"
-    >
+    <header className="fixed top-0 left-0 right-0 z-[1000] h-[68px] text-[var(--cb-text-inverse)] cb-section-inverse">
       <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)] h-full flex items-center gap-[var(--cb-space-lg)]">
         <Link to="/" className="flex items-center gap-[var(--cb-space-sm)] leading-none shrink-0">
           <img src={logoUrl} alt={leagueName} className="h-12 w-auto" />
@@ -96,27 +94,22 @@ export function Navbar() {
               </span>
             ))}
           </div>
-          {registrationEnabled && (
-            <div className="relative" ref={ref}>
-              <button
-                onClick={() => setOpen((o) => !o)}
-                className="cb-button-primary"
-              >
-                Register
-              </button>
-              {open && (
-                <div className="absolute right-0 mt-[var(--cb-space-xs)] w-[240px] cb-panel cb-shadow-panel overflow-hidden">
-                  <Link
-                    to="/register"
-                    onClick={() => setOpen(false)}
-                    className="block cb-body px-[var(--cb-space-lg)] py-[var(--cb-space-md)] hover:bg-[var(--cb-surface-muted)]"
-                  >
-                    New Team Membership
-                  </Link>
-                </div>
-              )}
-            </div>
-          )}
+          <div className="relative" ref={ref}>
+            <button onClick={() => setOpen((o) => !o)} className="cb-button-primary">
+              Register
+            </button>
+            {open && (
+              <div className="absolute right-0 mt-[var(--cb-space-xs)] w-[240px] cb-panel cb-shadow-panel overflow-hidden">
+                <Link
+                  to="/register"
+                  onClick={() => setOpen(false)}
+                  className="block cb-body px-[var(--cb-space-lg)] py-[var(--cb-space-md)] hover:bg-[var(--cb-surface-muted)]"
+                >
+                  New Team Membership
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </header>
