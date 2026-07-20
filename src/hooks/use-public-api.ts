@@ -7,7 +7,7 @@ import {
   normalizeSponsor,
   normalizePublicConfig,
 } from "@/lib/public-api";
-import { getOrganizationSlug } from "@/lib/env";
+import { getPublicTenantKey } from "@/lib/env";
 import type {
   PublicConfigRaw,
   PublicDivision,
@@ -25,26 +25,27 @@ import type {
   PaginationMeta,
 } from "@/types/public-api";
 
-const slug = getOrganizationSlug();
+const tenantKey = getPublicTenantKey();
 
 export const queryKeys = {
-  config: ["public-config", slug] as const,
-  home: (locale: string) => ["public-home", slug, locale] as const,
-  divisions: ["public-divisions", slug] as const,
-  team: (teamId: string) => ["public-team", slug, teamId] as const,
-  seasons: ["public-seasons", slug] as const,
+  config: ["public-config", tenantKey] as const,
+  home: (locale: string) => ["public-home", tenantKey, locale] as const,
+  divisions: ["public-divisions", tenantKey] as const,
+  team: (teamId: string) => ["public-team", tenantKey, teamId] as const,
+  seasons: ["public-seasons", tenantKey] as const,
   schedule: (seasonId?: string, divisionId?: string, status?: string, page?: number) =>
-    ["public-schedule", slug, seasonId, divisionId, status, page] as const,
+    ["public-schedule", tenantKey, seasonId, divisionId, status, page] as const,
   standings: (seasonId?: string, divisionId?: string) =>
-    ["public-standings", slug, seasonId, divisionId] as const,
+    ["public-standings", tenantKey, seasonId, divisionId] as const,
   topScorers: (seasonId?: string, divisionId?: string) =>
-    ["public-top-scorers", slug, seasonId, divisionId] as const,
+    ["public-top-scorers", tenantKey, seasonId, divisionId] as const,
   topScorersPage: (seasonId?: string, divisionId?: string, page?: number) =>
-    ["public-top-scorers-page", slug, seasonId, divisionId, page] as const,
-  news: (locale: string, page?: number) => ["public-news", slug, locale, page] as const,
-  highlights: (locale: string, page?: number) => ["public-highlights", slug, locale, page] as const,
-  sponsors: (locale: string) => ["public-sponsors", slug, locale] as const,
-  about: (locale: string) => ["public-about", slug, locale] as const,
+    ["public-top-scorers-page", tenantKey, seasonId, divisionId, page] as const,
+  news: (locale: string, page?: number) => ["public-news", tenantKey, locale, page] as const,
+  highlights: (locale: string, page?: number) =>
+    ["public-highlights", tenantKey, locale, page] as const,
+  sponsors: (locale: string) => ["public-sponsors", tenantKey, locale] as const,
+  about: (locale: string) => ["public-about", tenantKey, locale] as const,
 };
 
 export function usePublicConfig() {

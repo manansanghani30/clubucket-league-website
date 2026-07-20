@@ -1,4 +1,4 @@
-import { getApiBaseUrl, getOrganizationSlug, getPublicSurface } from "./env";
+import { getApiBaseUrl, getCurrentHostname, getOrganizationSlug, getPublicSurface } from "./env";
 import type {
   ApiEnvelope,
   PaginationMeta,
@@ -8,6 +8,7 @@ import type {
   PublicDivision,
   PublicSeason,
   PublicSponsor,
+  WebsiteBootstrap,
 } from "@/types/public-api";
 
 export class PublicApiError extends Error {
@@ -19,12 +20,44 @@ export class PublicApiError extends Error {
   }
 }
 
+let websiteBootstrapPromise: Promise<WebsiteBootstrap | null> | null = null;
+
+async function fetchWebsiteBootstrap(): Promise<WebsiteBootstrap | null> {
+  const hostname = getCurrentHostname();
+
+  if (!hostname || hostname === "localhost" || hostname === "127.0.0.1") {
+    return null;
+  }
+
+  if (!websiteBootstrapPromise) {
+    const url = new URL(`${getApiBaseUrl()}/public/website-bootstrap`);
+    url.searchParams.set("hostname", hostname);
+
+    websiteBootstrapPromise = fetch(url.toString(), {
+      headers: { Accept: "application/json" },
+    })
+      .then(async (response) => {
+        if (!response.ok) return null;
+        const envelope: ApiEnvelope<WebsiteBootstrap> = await response.json();
+        return envelope.success ? envelope.data : null;
+      })
+      .catch(() => null);
+  }
+
+  return websiteBootstrapPromise;
+}
+
+async function getResolvedOrganizationSlug(): Promise<string> {
+  const bootstrap = await fetchWebsiteBootstrap();
+  return bootstrap?.organizationSlug || getOrganizationSlug();
+}
+
 async function fetchPublicApiEnvelope<T>(
   path: string,
   options?: { params?: Record<string, string | number | undefined>; init?: RequestInit },
 ): Promise<ApiEnvelope<T>> {
   const base = getApiBaseUrl();
-  const slug = getOrganizationSlug();
+  const slug = await getResolvedOrganizationSlug();
   const url = new URL(`${base}/public/organizations/${slug}${path}`);
 
   url.searchParams.set("surface", getPublicSurface());
@@ -59,6 +92,10 @@ async function fetchPublicApiEnvelope<T>(
   }
 
   return envelope;
+}
+
+export async function getWebsiteBootstrapConfig(): Promise<WebsiteBootstrap | null> {
+  return fetchWebsiteBootstrap();
 }
 
 export async function fetchPublicApi<T>(
@@ -118,9 +155,7 @@ export function normalizePublicConfig(raw: PublicConfigRaw): PublicConfig {
   const navigation = (raw.navigation || [])
     .map((item) => ({ ...item, appRoute: normalizePublicRoute(item) }))
     .filter(
-      (item) =>
-        item.appRoute &&
-        (item.key === "home" || enabledModules[item.key] !== false),
+      (item) => item.appRoute && (item.key === "home" || enabledModules[item.key] !== false),
     ) as PublicConfig["navigation"];
 
   return {

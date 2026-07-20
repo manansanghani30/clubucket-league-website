@@ -9,3 +9,15 @@ export function getOrganizationSlug(): string {
 export function getPublicSurface(): string {
   return "public_web";
 }
+
+export function getCurrentHostname(): string {
+  if (typeof window === "undefined") {
+    return "";
+  }
+
+  return window.location.hostname;
+}
+
+export function getPublicTenantKey(): string {
+  return getCurrentHostname() || getOrganizationSlug();
+}

@@ -128,6 +128,24 @@ export type PublicConfigRaw = {
   updatedAt?: string;
 };
 
+export type PublicDomainRaw = {
+  id: string;
+  domain: string;
+  status: string;
+  isPrimary: boolean;
+};
+
+export type WebsiteBootstrap = {
+  hostname: string;
+  canonicalBaseUrl: string;
+  organizationSlug: string;
+  organization: PublicConfigOrganization;
+  domain: PublicDomainRaw;
+  primaryDomain?: PublicDomainRaw | null;
+  generatedDomain?: PublicDomainRaw | null;
+  config: PublicConfigRaw;
+};
+
 export type PublicConfig = {
   id: string;
   organizationSlug: string;
