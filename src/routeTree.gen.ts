@@ -9,52 +9,22 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TopScorersRouteImport } from './routes/top-scorers'
-import { Route as StandingRouteImport } from './routes/standing'
-import { Route as ScheduleRouteImport } from './routes/schedule'
-import { Route as RegisterRouteImport } from './routes/register'
-import { Route as NewsRouteImport } from './routes/news'
-import { Route as HighlightsRouteImport } from './routes/highlights'
-import { Route as DivisionsRouteImport } from './routes/divisions'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as DivisionsRouteImport } from './routes/divisions'
+import { Route as HighlightsRouteImport } from './routes/highlights'
+import { Route as NewsRouteImport } from './routes/news'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as ScheduleRouteImport } from './routes/schedule'
+import { Route as StandingRouteImport } from './routes/standing'
+import { Route as TopScorersRouteImport } from './routes/top-scorers'
+import { Route as HighlightsSlugRouteImport } from './routes/highlights_.$slug'
+import { Route as NewsSlugRouteImport } from './routes/news_.$slug'
 import { Route as TeamsTeamIdRouteImport } from './routes/teams.$teamId'
-import { Route as NewsSlugRouteImport } from './routes/news.$slug'
-import { Route as HighlightsSlugRouteImport } from './routes/highlights.$slug'
 
-const TopScorersRoute = TopScorersRouteImport.update({
-  id: '/top-scorers',
-  path: '/top-scorers',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StandingRoute = StandingRouteImport.update({
-  id: '/standing',
-  path: '/standing',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ScheduleRoute = ScheduleRouteImport.update({
-  id: '/schedule',
-  path: '/schedule',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RegisterRoute = RegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NewsRoute = NewsRouteImport.update({
-  id: '/news',
-  path: '/news',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HighlightsRoute = HighlightsRouteImport.update({
-  id: '/highlights',
-  path: '/highlights',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DivisionsRoute = DivisionsRouteImport.update({
-  id: '/divisions',
-  path: '/divisions',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -62,9 +32,49 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const DivisionsRoute = DivisionsRouteImport.update({
+  id: '/divisions',
+  path: '/divisions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HighlightsRoute = HighlightsRouteImport.update({
+  id: '/highlights',
+  path: '/highlights',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScheduleRoute = ScheduleRouteImport.update({
+  id: '/schedule',
+  path: '/schedule',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StandingRoute = StandingRouteImport.update({
+  id: '/standing',
+  path: '/standing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TopScorersRoute = TopScorersRouteImport.update({
+  id: '/top-scorers',
+  path: '/top-scorers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HighlightsSlugRoute = HighlightsSlugRouteImport.update({
+  id: '/highlights_/$slug',
+  path: '/highlights/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsSlugRoute = NewsSlugRouteImport.update({
+  id: '/news_/$slug',
+  path: '/news/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TeamsTeamIdRoute = TeamsTeamIdRouteImport.update({
@@ -72,23 +82,13 @@ const TeamsTeamIdRoute = TeamsTeamIdRouteImport.update({
   path: '/teams/$teamId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const NewsSlugRoute = NewsSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => NewsRoute,
-} as any)
-const HighlightsSlugRoute = HighlightsSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => HighlightsRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/divisions': typeof DivisionsRoute
-  '/highlights': typeof HighlightsRouteWithChildren
-  '/news': typeof NewsRouteWithChildren
+  '/highlights': typeof HighlightsRoute
+  '/news': typeof NewsRoute
   '/register': typeof RegisterRoute
   '/schedule': typeof ScheduleRoute
   '/standing': typeof StandingRoute
@@ -101,8 +101,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/divisions': typeof DivisionsRoute
-  '/highlights': typeof HighlightsRouteWithChildren
-  '/news': typeof NewsRouteWithChildren
+  '/highlights': typeof HighlightsRoute
+  '/news': typeof NewsRoute
   '/register': typeof RegisterRoute
   '/schedule': typeof ScheduleRoute
   '/standing': typeof StandingRoute
@@ -116,14 +116,14 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/divisions': typeof DivisionsRoute
-  '/highlights': typeof HighlightsRouteWithChildren
-  '/news': typeof NewsRouteWithChildren
+  '/highlights': typeof HighlightsRoute
+  '/news': typeof NewsRoute
   '/register': typeof RegisterRoute
   '/schedule': typeof ScheduleRoute
   '/standing': typeof StandingRoute
   '/top-scorers': typeof TopScorersRoute
-  '/highlights/$slug': typeof HighlightsSlugRoute
-  '/news/$slug': typeof NewsSlugRoute
+  '/highlights_/$slug': typeof HighlightsSlugRoute
+  '/news_/$slug': typeof NewsSlugRoute
   '/teams/$teamId': typeof TeamsTeamIdRoute
 }
 export interface FileRouteTypes {
@@ -166,8 +166,8 @@ export interface FileRouteTypes {
     | '/schedule'
     | '/standing'
     | '/top-scorers'
-    | '/highlights/$slug'
-    | '/news/$slug'
+    | '/highlights_/$slug'
+    | '/news_/$slug'
     | '/teams/$teamId'
   fileRoutesById: FileRoutesById
 }
@@ -175,64 +175,24 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   DivisionsRoute: typeof DivisionsRoute
-  HighlightsRoute: typeof HighlightsRouteWithChildren
-  NewsRoute: typeof NewsRouteWithChildren
+  HighlightsRoute: typeof HighlightsRoute
+  NewsRoute: typeof NewsRoute
   RegisterRoute: typeof RegisterRoute
   ScheduleRoute: typeof ScheduleRoute
   StandingRoute: typeof StandingRoute
   TopScorersRoute: typeof TopScorersRoute
+  HighlightsSlugRoute: typeof HighlightsSlugRoute
+  NewsSlugRoute: typeof NewsSlugRoute
   TeamsTeamIdRoute: typeof TeamsTeamIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/top-scorers': {
-      id: '/top-scorers'
-      path: '/top-scorers'
-      fullPath: '/top-scorers'
-      preLoaderRoute: typeof TopScorersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/standing': {
-      id: '/standing'
-      path: '/standing'
-      fullPath: '/standing'
-      preLoaderRoute: typeof StandingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/schedule': {
-      id: '/schedule'
-      path: '/schedule'
-      fullPath: '/schedule'
-      preLoaderRoute: typeof ScheduleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/register': {
-      id: '/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof RegisterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/news': {
-      id: '/news'
-      path: '/news'
-      fullPath: '/news'
-      preLoaderRoute: typeof NewsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/highlights': {
-      id: '/highlights'
-      path: '/highlights'
-      fullPath: '/highlights'
-      preLoaderRoute: typeof HighlightsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/divisions': {
-      id: '/divisions'
-      path: '/divisions'
-      fullPath: '/divisions'
-      preLoaderRoute: typeof DivisionsRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -242,11 +202,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/divisions': {
+      id: '/divisions'
+      path: '/divisions'
+      fullPath: '/divisions'
+      preLoaderRoute: typeof DivisionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/highlights': {
+      id: '/highlights'
+      path: '/highlights'
+      fullPath: '/highlights'
+      preLoaderRoute: typeof HighlightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/schedule': {
+      id: '/schedule'
+      path: '/schedule'
+      fullPath: '/schedule'
+      preLoaderRoute: typeof ScheduleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/standing': {
+      id: '/standing'
+      path: '/standing'
+      fullPath: '/standing'
+      preLoaderRoute: typeof StandingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/top-scorers': {
+      id: '/top-scorers'
+      path: '/top-scorers'
+      fullPath: '/top-scorers'
+      preLoaderRoute: typeof TopScorersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/highlights_/$slug': {
+      id: '/highlights_/$slug'
+      path: '/highlights/$slug'
+      fullPath: '/highlights/$slug'
+      preLoaderRoute: typeof HighlightsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news_/$slug': {
+      id: '/news_/$slug'
+      path: '/news/$slug'
+      fullPath: '/news/$slug'
+      preLoaderRoute: typeof NewsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/teams/$teamId': {
@@ -256,55 +272,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamsTeamIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/news/$slug': {
-      id: '/news/$slug'
-      path: '/$slug'
-      fullPath: '/news/$slug'
-      preLoaderRoute: typeof NewsSlugRouteImport
-      parentRoute: typeof NewsRoute
-    }
-    '/highlights/$slug': {
-      id: '/highlights/$slug'
-      path: '/$slug'
-      fullPath: '/highlights/$slug'
-      preLoaderRoute: typeof HighlightsSlugRouteImport
-      parentRoute: typeof HighlightsRoute
-    }
   }
 }
-
-interface HighlightsRouteChildren {
-  HighlightsSlugRoute: typeof HighlightsSlugRoute
-}
-
-const HighlightsRouteChildren: HighlightsRouteChildren = {
-  HighlightsSlugRoute: HighlightsSlugRoute,
-}
-
-const HighlightsRouteWithChildren = HighlightsRoute._addFileChildren(
-  HighlightsRouteChildren,
-)
-
-interface NewsRouteChildren {
-  NewsSlugRoute: typeof NewsSlugRoute
-}
-
-const NewsRouteChildren: NewsRouteChildren = {
-  NewsSlugRoute: NewsSlugRoute,
-}
-
-const NewsRouteWithChildren = NewsRoute._addFileChildren(NewsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   DivisionsRoute: DivisionsRoute,
-  HighlightsRoute: HighlightsRouteWithChildren,
-  NewsRoute: NewsRouteWithChildren,
+  HighlightsRoute: HighlightsRoute,
+  NewsRoute: NewsRoute,
   RegisterRoute: RegisterRoute,
   ScheduleRoute: ScheduleRoute,
   StandingRoute: StandingRoute,
   TopScorersRoute: TopScorersRoute,
+  HighlightsSlugRoute: HighlightsSlugRoute,
+  NewsSlugRoute: NewsSlugRoute,
   TeamsTeamIdRoute: TeamsTeamIdRoute,
 }
 export const routeTree = rootRouteImport
