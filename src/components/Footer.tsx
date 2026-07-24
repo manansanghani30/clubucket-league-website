@@ -3,6 +3,7 @@ import { Instagram, Twitter, Youtube, Facebook } from "lucide-react";
 import logo from "@/assets/ligad1-logo.png";
 import { usePublicConfig } from "@/hooks/use-public-api";
 import { isModuleEnabled } from "@/lib/public-api";
+import { Container } from "./Container";
 
 const fallbackQuickLinks = [
   { to: "/", label: "Home" },
@@ -33,44 +34,45 @@ export function Footer() {
   const locales = config?.supportedLocales.map((item) => item.locale.toUpperCase()) || ["EN", "ES"];
 
   return (
-    <footer className="text-[var(--cb-text-inverse)] pt-[calc(var(--cb-space-section)*2)] pb-[var(--cb-space-xl)] cb-section-inverse">
-      <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)]">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-[calc(var(--cb-space-xl)+var(--cb-space-lg))]">
+    <footer className="text-[var(--cb-text-inverse)] pt-[var(--cb-space-section)] pb-[var(--cb-space-xl)] cb-section-inverse">
+      <Container>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-[var(--cb-space-xl)]">
           <div>
             <img src={logoUrl} alt={leagueName} className="h-16 w-auto" />
             <p className="cb-caption mt-[var(--cb-space-md)]">{leagueName}</p>
             <div className="flex gap-[var(--cb-space-lg)] mt-[var(--cb-space-lg)]">
               {socialLinks?.instagram ? (
-                <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer">
-                  <Instagram size={20} className="hover:text-[var(--cb-brand-accent)] cursor-pointer" />
+                <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-[var(--cb-brand-accent)] cb-focus">
+                  <Instagram size={20} />
                 </a>
               ) : (
-                <Instagram size={20} className="hover:text-[var(--cb-brand-accent)] cursor-pointer" />
+                <span className="text-[var(--cb-text-muted)]"><Instagram size={20} /></span>
               )}
               {socialLinks?.twitter || socialLinks?.x ? (
                 <a
                   href={socialLinks.twitter || socialLinks.x}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="transition-colors hover:text-[var(--cb-brand-accent)] cb-focus"
                 >
-                  <Twitter size={20} className="hover:text-[var(--cb-brand-accent)] cursor-pointer" />
+                  <Twitter size={20} />
                 </a>
               ) : (
-                <Twitter size={20} className="hover:text-[var(--cb-brand-accent)] cursor-pointer" />
+                <span className="text-[var(--cb-text-muted)]"><Twitter size={20} /></span>
               )}
               {socialLinks?.youtube ? (
-                <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer">
-                  <Youtube size={20} className="hover:text-[var(--cb-brand-accent)] cursor-pointer" />
+                <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-[var(--cb-brand-accent)] cb-focus">
+                  <Youtube size={20} />
                 </a>
               ) : (
-                <Youtube size={20} className="hover:text-[var(--cb-brand-accent)] cursor-pointer" />
+                <span className="text-[var(--cb-text-muted)]"><Youtube size={20} /></span>
               )}
               {socialLinks?.facebook ? (
-                <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer">
-                  <Facebook size={20} className="hover:text-[var(--cb-brand-accent)] cursor-pointer" />
+                <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-[var(--cb-brand-accent)] cb-focus">
+                  <Facebook size={20} />
                 </a>
               ) : (
-                <Facebook size={20} className="hover:text-[var(--cb-brand-accent)] cursor-pointer" />
+                <span className="text-[var(--cb-text-muted)]"><Facebook size={20} /></span>
               )}
             </div>
           </div>
@@ -81,7 +83,7 @@ export function Footer() {
             <ul className="space-y-[var(--cb-space-sm)]">
               {quickLinks.map((l) => (
                 <li key={l.to}>
-                  <Link to={l.to} className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-inverse)] hover:text-[var(--cb-brand-accent)]">
+                  <Link to={l.to} className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-inverse)] hover:text-[var(--cb-brand-accent)] transition-colors cb-focus">
                     {l.label}
                   </Link>
                 </li>
@@ -100,11 +102,11 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        <div className="border-t border-[var(--cb-border-strong)] mt-[calc(var(--cb-space-xl)*2)] pt-[var(--cb-space-xl)] flex flex-col md:flex-row justify-between text-[length:var(--cb-font-size-caption)]">
+        <div className="border-t border-[var(--cb-border-strong)] mt-[var(--cb-space-xl)] pt-[var(--cb-space-xl)] flex flex-col md:flex-row justify-between text-[length:var(--cb-font-size-caption)]">
           <span className="text-[var(--cb-text-muted)]">&copy; 2026 {leagueName}. All rights reserved.</span>
           <span className="text-[var(--cb-text-muted)]">Powered by Clubucket</span>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

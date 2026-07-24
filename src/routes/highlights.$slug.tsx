@@ -1,10 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ChevronLeft } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePublicHighlightsItem } from "@/hooks/use-public-api";
 import { normalizeContentImage } from "@/lib/public-api";
 import { useLocale } from "@/lib/locale";
+import { BackLink } from "@/components/BackLink";
+import { EmptyState } from "@/components/EmptyState";
+import { Container } from "@/components/Container";
 
 export const Route = createFileRoute("/highlights/$slug")({
   head: ({ params }) => ({
@@ -21,7 +23,7 @@ function HighlightsDetail() {
   if (isLoading) {
     return (
       <Layout>
-        <div className="max-w-[750px] mx-auto px-[var(--cb-space-xl)] py-[calc(var(--cb-space-section)*2)]">
+        <Container className="max-w-[750px] py-[var(--cb-space-section)]">
           <Skeleton className="h-4 w-24 mb-[var(--cb-space-xl)]" />
           <Skeleton className="h-8 w-full mb-[var(--cb-space-md)]" />
           <Skeleton className="h-5 w-48 mb-[var(--cb-space-xl)]" />
@@ -33,7 +35,7 @@ function HighlightsDetail() {
             <Skeleton className="h-4 w-full" />
             <Skeleton className="h-4 w-3/4" />
           </div>
-        </div>
+        </Container>
       </Layout>
     );
   }
@@ -41,16 +43,10 @@ function HighlightsDetail() {
   if (!item) {
     return (
       <Layout>
-        <div className="max-w-[750px] mx-auto px-[var(--cb-space-xl)] py-[calc(var(--cb-space-section)*2)] text-center">
-          <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)]">Highlight not found.</p>
-          <Link
-            to="/highlights"
-            className="inline-flex items-center gap-[var(--cb-space-xs)] mt-[var(--cb-space-md)] text-[length:var(--cb-font-size-caption)] text-[var(--cb-brand-accent)] font-[var(--cb-font-weight-heading)] hover:underline"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Back to Highlights
-          </Link>
-        </div>
+        <Container className="max-w-[750px] py-[var(--cb-space-section)] text-center">
+          <EmptyState message="Highlight not found." />
+          <BackLink to="/highlights">Back to Highlights</BackLink>
+        </Container>
       </Layout>
     );
   }
@@ -60,14 +56,8 @@ function HighlightsDetail() {
 
   return (
     <Layout>
-      <article className="max-w-[750px] mx-auto px-[var(--cb-space-xl)] py-[calc(var(--cb-space-section)*2)]">
-        <Link
-          to="/highlights"
-          className="inline-flex items-center gap-[var(--cb-space-xs)] text-[length:var(--cb-font-size-caption)] text-[var(--cb-text-secondary)] font-[var(--cb-font-weight-heading)] hover:text-[var(--cb-brand-accent)]"
-        >
-          <ChevronLeft className="w-4 h-4" />
-          Back to Highlights
-        </Link>
+      <article className="max-w-[750px] mx-auto px-[var(--cb-space-xl)] py-[var(--cb-space-section)]">
+        <BackLink to="/highlights">Back to Highlights</BackLink>
 
         {item.category && (
           <div className="text-[length:var(--cb-font-size-caption)] uppercase font-[var(--cb-font-weight-heading)] text-[var(--cb-brand-accent)] mt-[var(--cb-space-lg)] tracking-normal">
@@ -105,7 +95,7 @@ function HighlightsDetail() {
           />
         ) : null}
 
-        <div className="mt-[var(--cb-space-xl)] text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)] leading-[1.8] space-y-[var(--cb-space-lg)]">
+        <div className="mt-[var(--cb-space-xl)] cb-body leading-[1.7] space-y-[var(--cb-space-lg)]">
           {item.bodySections?.length ? (
             item.bodySections.map((section, i) => (
               <div key={i}>
@@ -127,14 +117,14 @@ function HighlightsDetail() {
                 href={item.ctaUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block bg-[var(--cb-brand-accent)] text-[var(--cb-text-inverse)] rounded-full px-[var(--cb-space-xl)] py-[var(--cb-space-sm)] text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] uppercase hover:opacity-90"
+                className="cb-button-primary text-[length:var(--cb-font-size-caption)]"
               >
                 {item.ctaText || "Learn More"}
               </a>
             </div>
           )}
 
-          {item.tags?.length && (
+          {item.tags?.length ? (
             <div className="flex flex-wrap gap-[var(--cb-space-xs)] mt-[var(--cb-space-xl)] pt-[var(--cb-space-lg)] border-t border-[var(--cb-border-subtle)]">
               {item.tags.map((tag) => (
                 <span
@@ -145,7 +135,7 @@ function HighlightsDetail() {
                 </span>
               ))}
             </div>
-          )}
+          ) : null}
         </div>
       </article>
     </Layout>

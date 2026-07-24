@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Layout, PageHeader } from "@/components/Layout";
 import { NewsCard } from "@/components/NewsCard";
+import { Section } from "@/components/Section";
+import { EmptyState } from "@/components/EmptyState";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageNav } from "@/components/PageNav";
 import { usePublicNews } from "@/hooks/use-public-api";
@@ -28,56 +30,52 @@ function News() {
   return (
     <Layout>
       <PageHeader title="News & Updates" subtitle="Latest from LigaD1" />
-      <section className="bg-[var(--cb-surface-muted)] py-[calc(var(--cb-space-section)*2)]">
-        <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)]">
-          {isLoading ? (
-            <div className="grid md:grid-cols-3 gap-[var(--cb-space-xl)]">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-md)] overflow-hidden cb-shadow-panel">
-                  <Skeleton className="h-[190px] w-full rounded-none" />
-                  <div className="p-[var(--cb-space-lg)] space-y-[var(--cb-space-md)]">
-                    <Skeleton className="h-3 w-20" />
-                    <Skeleton className="h-5 w-full" />
-                    <Skeleton className="h-4 w-28" />
-                    <Skeleton className="h-4 w-full" />
-                  </div>
+      <Section muted>
+        {isLoading ? (
+          <div className="grid md:grid-cols-3 gap-[var(--cb-space-xl)]">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-md)] overflow-hidden cb-shadow-panel">
+                <Skeleton className="h-[190px] w-full rounded-none" />
+                <div className="p-[var(--cb-space-lg)] space-y-[var(--cb-space-md)]">
+                  <Skeleton className="h-3 w-20" />
+                  <Skeleton className="h-5 w-full" />
+                  <Skeleton className="h-4 w-28" />
+                  <Skeleton className="h-4 w-full" />
                 </div>
+              </div>
+            ))}
+          </div>
+        ) : error ? (
+          <div className="text-center py-[var(--cb-space-section)]">
+            <p className="cb-body">This section could not load.</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="mt-[var(--cb-space-sm)] text-[length:var(--cb-font-size-caption)] text-[var(--cb-brand-accent)] font-[var(--cb-font-weight-heading)] hover:underline cb-focus"
+            >
+              Retry
+            </button>
+          </div>
+        ) : items.length === 0 ? (
+          <EmptyState message="No news articles available." />
+        ) : (
+          <>
+            <div className="grid md:grid-cols-3 gap-[var(--cb-space-xl)]">
+              {items.map((n, idx) => (
+                <Link key={`${n.id}-${idx}`} to="/news/$slug" params={{ slug: n.slug || n.id }}>
+                  <NewsCard
+                    category={n.category || ""}
+                    title={n.title}
+                    date={n.date || ""}
+                    excerpt={normalizeContentExcerpt(n)}
+                    image={normalizeContentImage(n)}
+                  />
+                </Link>
               ))}
             </div>
-          ) : error ? (
-            <div className="text-center py-[var(--cb-space-section)]">
-              <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)]">This section could not load.</p>
-              <button
-                onClick={() => window.location.reload()}
-                className="mt-[var(--cb-space-sm)] text-[length:var(--cb-font-size-caption)] text-[var(--cb-brand-accent)] font-[var(--cb-font-weight-heading)] hover:underline"
-              >
-                Retry
-              </button>
-            </div>
-          ) : items.length === 0 ? (
-            <div className="text-center py-[var(--cb-space-section)]">
-              <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)]">No news articles available.</p>
-            </div>
-          ) : (
-            <>
-              <div className="grid md:grid-cols-3 gap-[var(--cb-space-xl)]">
-                {items.map((n, idx) => (
-                  <Link key={`${n.id}-${idx}`} to="/news/$slug" params={{ slug: n.slug || n.id }}>
-                    <NewsCard
-                      category={n.category || ""}
-                      title={n.title}
-                      date={n.date || ""}
-                      excerpt={normalizeContentExcerpt(n)}
-                      image={normalizeContentImage(n)}
-                    />
-                  </Link>
-                ))}
-              </div>
-              <PageNav page={page} totalPages={totalPages} onPageChange={setPage} />
-            </>
-          )}
-        </div>
-      </section>
+            <PageNav page={page} totalPages={totalPages} onPageChange={setPage} />
+          </>
+        )}
+      </Section>
     </Layout>
   );
 }

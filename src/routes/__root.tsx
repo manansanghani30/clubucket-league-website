@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { LocaleProvider } from "@/lib/locale";
 import { useLocale } from "@/lib/locale";
 import { usePublicConfig } from "@/hooks/use-public-api";
+import { LoadingState } from "@/components/LoadingState";
 
 function NotFoundComponent() {
   return (
@@ -27,7 +28,7 @@ function NotFoundComponent() {
         <div className="mt-[var(--cb-space-lg)]">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-[var(--cb-radius-md)] bg-primary px-[var(--cb-space-md)] py-[var(--cb-space-sm)] text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex items-center justify-center rounded-[var(--cb-radius-md)] bg-[var(--cb-brand-accent)] px-[var(--cb-space-md)] py-[var(--cb-space-sm)] text-sm font-[var(--cb-font-weight-medium)] text-[var(--cb-text-inverse)] transition-colors hover:bg-[var(--cb-brand-accent)]/90"
           >
             Go home
           </Link>
@@ -56,13 +57,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-[var(--cb-radius-md)] bg-primary px-[var(--cb-space-md)] py-[var(--cb-space-sm)] text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex items-center justify-center rounded-[var(--cb-radius-md)] bg-[var(--cb-brand-accent)] px-[var(--cb-space-md)] py-[var(--cb-space-sm)] text-sm font-[var(--cb-font-weight-medium)] text-[var(--cb-text-inverse)] transition-colors hover:bg-[var(--cb-brand-accent)]/90"
           >
             Try again
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center rounded-[var(--cb-radius-md)] border border-input bg-background px-[var(--cb-space-md)] py-[var(--cb-space-sm)] text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            className="inline-flex items-center justify-center rounded-[var(--cb-radius-md)] border border-[var(--cb-border-subtle)] bg-[var(--cb-surface-canvas)] px-[var(--cb-space-md)] py-[var(--cb-space-sm)] text-sm font-[var(--cb-font-weight-medium)] text-[var(--cb-text-primary)] transition-colors hover:bg-[var(--cb-surface-muted)]"
           >
             Go home
           </a>
@@ -150,7 +151,7 @@ function PublicThemeGate({ children }: { children: ReactNode }) {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <span>Loading</span>
+        <LoadingState />
       </div>
     );
   }
@@ -159,8 +160,8 @@ function PublicThemeGate({ children }: { children: ReactNode }) {
     return (
       <div className="min-h-screen flex items-center justify-center px-[var(--cb-space-md)] text-center">
         <div>
-          <h1 className="text-xl font-[var(--cb-font-weight-heading)]">Website unavailable</h1>
-          <p className="mt-[var(--cb-space-xs)] text-sm">The public website configuration could not be loaded.</p>
+          <h1 className="cb-heading text-[length:var(--cb-font-size-title)]">Website unavailable</h1>
+          <p className="mt-[var(--cb-space-xs)] cb-body">The public website configuration could not be loaded.</p>
         </div>
       </div>
     );

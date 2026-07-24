@@ -1,5 +1,6 @@
 import type { PublicFixture } from "@/types/public-api";
 import { generateInitials } from "@/lib/public-api";
+import { Container } from "./Container";
 
 function TeamBadge({ team, accent = false }: { team: PublicFixture["homeTeam"]; accent?: boolean }) {
   if (team.logoUrl) {
@@ -27,7 +28,7 @@ function Item(f: PublicFixture) {
     <div className="flex items-center gap-[var(--cb-space-md)] px-[var(--cb-space-lg)] py-[var(--cb-space-sm)] mx-[var(--cb-space-xs)] cb-panel cb-shadow-panel shrink-0">
       <TeamBadge team={f.homeTeam} />
       <div className="text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] tabular-nums whitespace-nowrap">
-        {f.result?.homeScore ?? "-"} <span className="text-[var(--cb-text-muted)] mx-[calc(var(--cb-space-xs)/2)]">&ndash;</span>{" "}
+        {f.result?.homeScore ?? "-"}         <span className="text-[var(--cb-text-muted)] mx-[var(--cb-space-2xs)]">&ndash;</span>{" "}
         {f.result?.awayScore ?? "-"}
       </div>
       <TeamBadge team={f.awayTeam} accent />
@@ -40,7 +41,7 @@ export function ScoreTicker({ results }: { results?: PublicFixture[] }) {
   const items = [...results, ...results];
   return (
     <div className="w-full py-[var(--cb-space-md)] bg-[var(--cb-brand-primary)]">
-      <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)]">
+      <Container>
         <div className="overflow-hidden relative">
           <div className="ticker-track flex items-center w-max">
             {items.map((f, i) => (
@@ -48,7 +49,7 @@ export function ScoreTicker({ results }: { results?: PublicFixture[] }) {
             ))}
           </div>
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

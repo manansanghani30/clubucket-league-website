@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { CheckCircle2, Check, AlertCircle } from "lucide-react";
 import { Layout, PageHeader } from "@/components/Layout";
+import { Container } from "@/components/Container";
+import { Section } from "@/components/Section";
 import { useCreateInquiry, usePublicDivisions } from "@/hooks/use-public-api";
 
 export const Route = createFileRoute("/register")({
@@ -17,7 +19,7 @@ export const Route = createFileRoute("/register")({
 const inputCls =
   "w-full h-10 px-[var(--cb-space-md)] text-[length:var(--cb-font-size-body)] border border-[var(--cb-border-subtle)] rounded-[var(--cb-radius-md)] focus:outline-none focus:border-[var(--cb-text-primary)] disabled:opacity-50";
 const labelCls =
-  "block text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] mb-[var(--cb-space-xs)].5";
+  "block text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] mb-[var(--cb-space-2xs)]";
 
 function Register() {
   const [submitted, setSubmitted] = useState(false);
@@ -56,9 +58,8 @@ function Register() {
   return (
     <Layout>
       <PageHeader title="New Team Membership" subtitle="Submit a request to join LigaD1." />
-      <section className="bg-[var(--cb-surface-muted)] py-[calc(var(--cb-space-section)*2)]">
-        <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)] grid lg:grid-cols-[3fr_2fr] gap-[var(--cb-space-xl)]">
-          <div className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-md)] p-[calc(var(--cb-space-xl)+var(--cb-space-lg))] cb-shadow-panel">
+      <Section muted containerClassName="grid lg:grid-cols-[3fr_2fr] gap-[var(--cb-space-xl)]">
+          <div className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-md)] p-[var(--cb-space-48)] cb-shadow-panel">
             {submitted ? (
               <div className="text-center py-[var(--cb-space-section)]">
                 <CheckCircle2 size={40} className="text-[var(--cb-status-success)] mx-auto" />
@@ -71,17 +72,17 @@ function Register() {
                 </p>
                 <Link
                   to="/"
-                  className="inline-block mt-[var(--cb-space-lg)] bg-[var(--cb-brand-primary)] text-[var(--cb-text-inverse)] rounded-[var(--cb-radius-md)] px-[var(--cb-space-lg)] py-[var(--cb-space-sm)] text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)]"
+                  className="inline-block mt-[var(--cb-space-lg)] cb-button-secondary"
                 >
                   Back to Home
                 </Link>
               </div>
             ) : (
               <form onSubmit={handleSubmit}>
-                <h2 className="text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)]">
+                <h2 className="cb-title">
                   Team Registration Request
                 </h2>
-                <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)] mt-[var(--cb-space-xs)]">
+                <p className="cb-body mt-[var(--cb-space-xs)]">
                   Fill in the details below and our team will get back to you within 3–5 business
                   days.
                 </p>
@@ -90,7 +91,7 @@ function Register() {
                   <div className="mt-[var(--cb-space-lg)] flex items-start gap-[var(--cb-space-sm)] bg-[color-mix(in_srgb,var(--cb-status-danger),transparent_86%)] border border-[var(--cb-status-danger)] rounded-[var(--cb-radius-md)] px-[var(--cb-space-md)] py-[var(--cb-space-sm)]">
                     <AlertCircle
                       size={16}
-                      className="text-[var(--cb-status-danger)] shrink-0 mt-[calc(var(--cb-space-xs)/2)]"
+                      className="text-[var(--cb-status-danger)] shrink-0 mt-[var(--cb-space-2xs)]"
                     />
                     <p className="text-[length:var(--cb-font-size-caption)] text-[var(--cb-status-danger)]">
                       {inquiry.error instanceof Error
@@ -202,7 +203,7 @@ function Register() {
                 <button
                   type="submit"
                   disabled={inquiry.isPending}
-                  className="w-full mt-[var(--cb-space-xl)] bg-[var(--cb-brand-accent)] text-[var(--cb-text-inverse)] rounded-full py-[var(--cb-space-sm)] text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)] uppercase hover:opacity-90 disabled:opacity-50"
+                  className="w-full mt-[var(--cb-space-xl)] cb-button-primary cb-focus disabled:opacity-50"
                 >
                   {inquiry.isPending ? "Submitting..." : "Submit Request"}
                 </button>
@@ -227,9 +228,9 @@ function Register() {
                 <li key={t} className="flex gap-[var(--cb-space-sm)]">
                   <Check
                     size={16}
-                    className="text-[var(--cb-brand-accent)] shrink-0 mt-[calc(var(--cb-space-xs)/2)]"
+                    className="text-[var(--cb-brand-accent)] shrink-0 mt-[var(--cb-space-2xs)]"
                   />
-                  <span className="text-[length:var(--cb-font-size-body)] text-[color-mix(in_srgb,var(--cb-text-inverse),transparent_15%)] leading-[1.7]">
+                  <span className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-inverse)]/85 leading-[1.7]">
                     {t}
                   </span>
                 </li>
@@ -243,8 +244,7 @@ function Register() {
               info@ligad1.com
             </p>
           </aside>
-        </div>
-      </section>
+      </Section>
     </Layout>
   );
 }

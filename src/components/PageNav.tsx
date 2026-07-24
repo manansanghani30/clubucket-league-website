@@ -26,7 +26,7 @@ export function PageNav({
               e.preventDefault();
               if (page > 1) onPageChange(page - 1);
             }}
-            className={page <= 1 ? "pointer-events-none opacity-40" : "cursor-pointer"}
+            className={page <= 1 ? "pointer-events-none opacity-40" : "cursor-pointer transition-colors cb-focus"}
           />
         </PaginationItem>
 
@@ -35,7 +35,7 @@ export function PageNav({
             <button
               onClick={() => onPageChange(p)}
               className={
-                "flex h-9 w-9 items-center justify-center font-[var(--cb-font-weight-heading)] cb-pill " +
+                "flex h-11 w-11 items-center justify-center font-[var(--cb-font-weight-heading)] cb-pill transition-colors cb-focus " +
                 (p === page
                   ? "bg-[var(--cb-brand-primary)] text-[var(--cb-text-inverse)]"
                   : "text-[var(--cb-text-secondary)] hover:bg-[var(--cb-surface-muted)]")
@@ -52,7 +52,7 @@ export function PageNav({
               e.preventDefault();
               if (page < totalPages) onPageChange(page + 1);
             }}
-            className={page >= totalPages ? "pointer-events-none opacity-40" : "cursor-pointer"}
+            className={page >= totalPages ? "pointer-events-none opacity-40" : "cursor-pointer transition-colors cb-focus"}
           />
         </PaginationItem>
       </PaginationContent>
