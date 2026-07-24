@@ -44,7 +44,7 @@ export function ScoreTicker({ results }: { results?: PublicFixture[] }) {
         <div className="overflow-hidden relative">
           <div className="ticker-track flex items-center w-max">
             {items.map((f, i) => (
-              <Item key={`${f.id || i}`} {...f} />
+              <Item key={`${f.id || i}-${i}`} {...f} />
             ))}
           </div>
         </div>
