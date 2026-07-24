@@ -48,6 +48,45 @@
 }
 
 :root {
+  /* Fallback design tokens. The backend theme is injected at runtime as --cb-* vars on
+     the .cb-page wrapper (see __root.tsx) and overrides these. When a value is missing
+     (partial/absent theme), React omits the inline style and these defaults hold, so the
+     layout never collapses. Keep in sync with the backend/CMS theme contract. */
+  --cb-brand-primary: #166534;
+  --cb-brand-secondary: #111827;
+  --cb-brand-accent: #dc2626;
+  --cb-text-primary: #111827;
+  --cb-text-secondary: #475569;
+  --cb-text-muted: #64748b;
+  --cb-text-inverse: #ffffff;
+  --cb-surface-canvas: #f8fafc;
+  --cb-surface-panel: #ffffff;
+  --cb-surface-muted: #f1f5f9;
+  --cb-surface-inverse: #111827;
+  --cb-border-subtle: #e2e8f0;
+  --cb-border-strong: #94a3b8;
+  --cb-status-success: #16a34a;
+  --cb-status-warning: #f59e0b;
+  --cb-status-danger: #dc2626;
+  --cb-status-info: #2563eb;
+  --cb-radius-xs: 4px;
+  --cb-radius-sm: 6px;
+  --cb-radius-md: 8px;
+  --cb-radius-lg: 16px;
+  --cb-space-xs: 4px;
+  --cb-space-sm: 8px;
+  --cb-space-md: 16px;
+  --cb-space-lg: 24px;
+  --cb-space-xl: 40px;
+  --cb-space-section: 64px;
+  --cb-font-family: 'DM Sans', sans-serif;
+  --cb-font-size-caption: 12px;
+  --cb-font-size-body: 16px;
+  --cb-font-size-title: 24px;
+  --cb-font-size-screen: 40px;
+  --cb-font-weight-body: 400;
+  --cb-font-weight-heading: 700;
+
   --radius: var(--cb-radius-md);
   --background: var(--cb-surface-canvas);
   --foreground: var(--cb-text-primary);
