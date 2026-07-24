@@ -27,6 +27,8 @@ import {
   normalizeContentExcerpt,
 } from "@/lib/public-api";
 import type { PublicFixture, PublicTopScorer, PublicSponsor } from "@/types/public-api";
+import { Container } from "@/components/Container";
+import { Section } from "@/components/Section";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -117,7 +119,7 @@ function HeroSlider({
                 <div className="mt-[var(--cb-space-xl)]">
                   <Link
                     to={slides[current].ctaLink || "/schedule"}
-                    className="inline-block bg-[var(--cb-brand-accent)] text-[var(--cb-text-inverse)] rounded-full px-[var(--cb-space-xl)] py-[var(--cb-space-sm)] text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)] uppercase hover:opacity-90"
+                    className="inline-block cb-button-primary"
                   >
                     {slides[current].ctaText}
                   </Link>
@@ -133,7 +135,7 @@ function HeroSlider({
               <div className="mt-[var(--cb-space-xl)]">
                 <Link
                   to="/schedule"
-                  className="inline-block bg-[var(--cb-brand-accent)] text-[var(--cb-text-inverse)] rounded-full px-[var(--cb-space-xl)] py-[var(--cb-space-sm)] text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)] uppercase hover:opacity-90"
+                  className="inline-block cb-button-primary"
                 >
                   View Schedule
                 </Link>
@@ -146,13 +148,13 @@ function HeroSlider({
         <>
           <button
             onClick={() => setCurrent((current - 1 + count) % count)}
-            className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-[color-mix(in_srgb,var(--cb-surface-inverse),transparent_60%)] text-[var(--cb-text-inverse)] flex items-center justify-center hover:bg-[color-mix(in_srgb,var(--cb-surface-inverse),transparent_40%)]"
+            className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-[var(--cb-surface-inverse)]/60 text-[var(--cb-text-inverse)] flex items-center justify-center hover:bg-[var(--cb-surface-inverse)]/40 cb-focus"
           >
             <ChevronLeft size={22} />
           </button>
           <button
             onClick={() => setCurrent((current + 1) % count)}
-            className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-[color-mix(in_srgb,var(--cb-surface-inverse),transparent_60%)] text-[var(--cb-text-inverse)] flex items-center justify-center hover:bg-[color-mix(in_srgb,var(--cb-surface-inverse),transparent_40%)]"
+            className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-[var(--cb-surface-inverse)]/60 text-[var(--cb-text-inverse)] flex items-center justify-center hover:bg-[var(--cb-surface-inverse)]/40 cb-focus"
           >
             <ChevronRight size={22} />
           </button>
@@ -161,7 +163,7 @@ function HeroSlider({
               <button
                 key={dotIdx}
                 onClick={() => setCurrent(dotIdx)}
-                className="w-2.5 h-2.5 rounded-full"
+                className="w-3 h-3 rounded-full cb-focus"
                 style={{
                   background:
                     dotIdx === current
@@ -212,13 +214,13 @@ function Home() {
                 className="w-full py-[var(--cb-space-sm)]"
                 style={{ background: "var(--cb-brand-primary)" }}
               >
-                <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)]">
+                <Container>
                   <div className="flex gap-[var(--cb-space-sm)]">
                     <Skeleton className="h-10 w-[180px] rounded-[var(--cb-radius-md)] bg-[var(--cb-surface-panel)]/20" />
                     <Skeleton className="h-10 w-[180px] rounded-[var(--cb-radius-md)] bg-[var(--cb-surface-panel)]/20" />
                     <Skeleton className="h-10 w-[180px] rounded-[var(--cb-radius-md)] bg-[var(--cb-surface-panel)]/20" />
                   </div>
-                </div>
+                </Container>
               </div>
             ) : (
               <ScoreTicker results={completedMatches} />
@@ -228,170 +230,160 @@ function Home() {
       </div>
 
       {homeError && (
-        <section className="bg-[var(--cb-surface-muted)] py-[var(--cb-space-section)]">
-          <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)] text-center">
-            <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)]">This section could not load.</p>
-            <button
-              onClick={() => window.location.reload()}
-              className="mt-[var(--cb-space-sm)] text-[length:var(--cb-font-size-caption)] text-[var(--cb-brand-accent)] font-[var(--cb-font-weight-heading)] hover:underline"
-            >
-              Retry
-            </button>
-          </div>
-        </section>
+        <Section muted containerClassName="text-center">
+          <p className="cb-body">This section could not load.</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="mt-[var(--cb-space-sm)] text-[length:var(--cb-font-size-caption)] text-[var(--cb-brand-accent)] font-[var(--cb-font-weight-heading)] hover:underline cb-focus"
+          >
+            Retry
+          </button>
+        </Section>
       )}
 
       {/* About */}
-      <section className="bg-[var(--cb-surface-muted)] py-[calc(var(--cb-space-section)*2)]">
-        <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)] grid md:grid-cols-2 gap-[calc(var(--cb-space-xl)*2)] items-center">
-          <div>
-            <div className="text-[var(--cb-brand-accent)] text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)] uppercase tracking-normal">
-              {aboutData?.title || home?.aboutContent?.title ? "About" : "About LigaD1"}
-            </div>
-            <h2 className="text-[length:var(--cb-font-size-screen)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] mt-[var(--cb-space-sm)]">
-              {aboutData?.title || home?.aboutContent?.title || "More Than a League. A Community."}
-            </h2>
-            {aboutData?.summary || home?.aboutContent?.body ? (
-              <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)] leading-[1.7] mt-[var(--cb-space-lg)]">
-                {aboutData?.summary || home?.aboutContent?.body}
-              </p>
-            ) : null}
-            <Link
-              to="/about"
-              className="mt-[var(--cb-space-xl)] inline-block text-[var(--cb-brand-accent)] text-[length:var(--cb-font-size-body)] uppercase font-[var(--cb-font-weight-heading)] hover:underline"
-            >
-              Learn more &rarr;
-            </Link>
+      <Section muted containerClassName="grid md:grid-cols-2 gap-[var(--cb-space-xl)] items-center">
+        <div>
+          <div className="cb-eyebrow">
+            {aboutData?.title || home?.aboutContent?.title ? "About" : "About LigaD1"}
           </div>
-          <div className="rounded-[var(--cb-radius-lg)] overflow-hidden min-h-[280px]">
-            <img
-              src={aboutData?.imageUrl || home?.aboutContent?.imageUrl || seasonHighlights}
-              alt="About"
-              width={1280}
-              height={896}
-              loading="lazy"
-              className="w-full h-full object-cover"
-            />
-          </div>
+          <h2 className="cb-heading">
+            {aboutData?.title || home?.aboutContent?.title || "More Than a League. A Community."}
+          </h2>
+          {aboutData?.summary || home?.aboutContent?.body ? (
+            <p className="cb-body mt-[var(--cb-space-lg)]">
+              {aboutData?.summary || home?.aboutContent?.body}
+            </p>
+          ) : null}
+          <Link
+            to="/about"
+            className="mt-[var(--cb-space-xl)] inline-block text-[var(--cb-brand-accent)] text-[length:var(--cb-font-size-body)] uppercase font-[var(--cb-font-weight-heading)] hover:underline"
+          >
+            Learn more &rarr;
+          </Link>
         </div>
-      </section>
+        <div className="rounded-[var(--cb-radius-lg)] overflow-hidden min-h-[280px]">
+          <img
+            src={aboutData?.imageUrl || home?.aboutContent?.imageUrl || seasonHighlights}
+            alt="About"
+            width={1280}
+            height={896}
+            loading="lazy"
+            className="w-full h-full object-cover"
+          />
+        </div>
+      </Section>
 
       {/* Our Divisions */}
-      <section className="bg-[var(--cb-brand-primary)] py-[calc(var(--cb-space-section)*2)]">
-        <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)]">
-          <h2 className="text-[length:var(--cb-font-size-screen)] md:text-[length:var(--cb-font-size-screen)] font-[var(--cb-font-weight-heading)] uppercase tracking-normal">
-            <span className="text-[var(--cb-text-inverse)]">OUR </span>
-            <span className="text-[var(--cb-brand-accent)]">DIVISIONS</span>
-          </h2>
-          {apiDivisions && apiDivisions.length > 0 ? (
-            <div className="mt-[var(--cb-space-section)] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[var(--cb-space-xl)]">
-              {apiDivisions.map((div, idx) => (
-                <Link
-                  key={`${div.id || div.name}-${idx}`}
-                  to="/divisions"
-                  className="group relative bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-md)] p-[var(--cb-space-xl)] overflow-hidden hover:-translate-y-1 transition-all duration-300 cb-shadow-panel"
-                >
-                  <span className="absolute top-0 left-0 h-1 w-0 bg-[var(--cb-brand-accent)] group-hover:w-full transition-all duration-300" />
-                  <div className="flex items-start justify-between">
-                    <div className="w-12 h-12 rounded-[var(--cb-radius-md)] border-2 border-[var(--cb-brand-primary)] flex items-center justify-center bg-[var(--cb-surface-panel)]">
-                      <span className="text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] text-[var(--cb-brand-primary)]">
-                        {config?.displayName ? generateInitials(config.displayName) : "L1"}
-                      </span>
-                    </div>
-                  </div>
-                  <h3 className="mt-[var(--cb-space-lg)] text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)] uppercase tracking-normal text-[var(--cb-brand-primary)] leading-tight">
-                    {div.name}
-                  </h3>
-                  <div className="mt-[var(--cb-space-lg)] flex items-center justify-between">
-                    <span className="text-[length:var(--cb-font-size-caption)] uppercase font-[var(--cb-font-weight-heading)] tracking-normal text-[var(--cb-brand-accent)]">
-                      View Standings
+      <Section inverse>
+        <h2 className="text-[length:var(--cb-font-size-screen)] font-[var(--cb-font-weight-heading)] uppercase tracking-normal">
+          <span className="text-[var(--cb-text-inverse)]">OUR </span>
+          <span className="text-[var(--cb-brand-accent)]">DIVISIONS</span>
+        </h2>
+        {apiDivisions && apiDivisions.length > 0 ? (
+          <div className="mt-[var(--cb-space-section)] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[var(--cb-space-xl)]">
+            {apiDivisions.map((div, idx) => (
+              <Link
+                key={`${div.id || div.name}-${idx}`}
+                to="/divisions"
+                className="group relative bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-md)] p-[var(--cb-space-xl)] overflow-hidden hover:-translate-y-1 transition-all duration-300 cb-shadow-panel cb-focus"
+              >
+                <span className="absolute top-0 left-0 h-1 w-0 bg-[var(--cb-brand-accent)] group-hover:w-full transition-all duration-300" />
+                <div className="flex items-start justify-between">
+                  <div className="w-12 h-12 rounded-[var(--cb-radius-md)] border-2 border-[var(--cb-brand-primary)] flex items-center justify-center bg-[var(--cb-surface-panel)]">
+                    <span className="text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] text-[var(--cb-brand-primary)]">
+                      {config?.displayName ? generateInitials(config.displayName) : "L1"}
                     </span>
-                    <div className="w-9 h-9 rounded-[var(--cb-radius-md)] bg-[var(--cb-brand-accent)] text-[var(--cb-text-inverse)] flex items-center justify-center group-hover:opacity-90 transition-colors">
-                      <ChevronRight size={18} />
-                    </div>
                   </div>
-                </Link>
-              ))}
-            </div>
-          ) : homeLoading ? (
-            <div className="mt-[var(--cb-space-section)] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[var(--cb-space-xl)]">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-md)] p-[var(--cb-space-xl)]">
-                  <Skeleton className="w-12 h-12 rounded-[var(--cb-radius-md)]" />
-                  <Skeleton className="h-7 w-3/4 mt-[var(--cb-space-lg)]" />
-                  <Skeleton className="h-4 w-1/3 mt-[var(--cb-space-lg)]" />
                 </div>
-              ))}
-            </div>
-          ) : null}
-        </div>
-      </section>
+                <h3 className="mt-[var(--cb-space-lg)] text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)] uppercase tracking-normal text-[var(--cb-brand-primary)] leading-tight">
+                  {div.name}
+                </h3>
+                <div className="mt-[var(--cb-space-lg)] flex items-center justify-between">
+                  <span className="text-[length:var(--cb-font-size-caption)] uppercase font-[var(--cb-font-weight-heading)] tracking-normal text-[var(--cb-brand-accent)]">
+                    View Standings
+                  </span>
+                  <div className="w-9 h-9 rounded-[var(--cb-radius-md)] bg-[var(--cb-brand-accent)] text-[var(--cb-text-inverse)] flex items-center justify-center group-hover:opacity-90 transition-colors">
+                    <ChevronRight size={18} />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : homeLoading ? (
+          <div className="mt-[var(--cb-space-section)] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[var(--cb-space-xl)]">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-md)] p-[var(--cb-space-xl)]">
+                <Skeleton className="w-12 h-12 rounded-[var(--cb-radius-md)]" />
+                <Skeleton className="h-7 w-3/4 mt-[var(--cb-space-lg)]" />
+                <Skeleton className="h-4 w-1/3 mt-[var(--cb-space-lg)]" />
+              </div>
+            ))}
+          </div>
+        ) : null}
+      </Section>
 
       {/* Top Scorers */}
       {topScorers && topScorers.length > 0 && <TopScorersSection scorers={topScorers} />}
 
       {/* News */}
       {latestNews && latestNews.length > 0 ? (
-        <section className="bg-[var(--cb-surface-muted)] pt-[var(--cb-space-section)] pb-[calc(var(--cb-space-section)*2)]">
-          <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)]">
-            <div className="flex items-center justify-between">
-              <h2 className="text-[length:var(--cb-font-size-screen)] font-[var(--cb-font-weight-heading)]">Latest News</h2>
-              <Link to="/news" className="text-[length:var(--cb-font-size-caption)] uppercase font-[var(--cb-font-weight-heading)] text-[var(--cb-brand-accent)]">
-                View All News &rarr;
-              </Link>
-            </div>
-            <div className="grid md:grid-cols-3 gap-[var(--cb-space-xl)] mt-[calc(var(--cb-space-xl)*2)]">
-              {latestNews.slice(0, 3).map((item, idx) => (
-                <Link
-                  key={`${item.id || item.title}-${idx}`}
-                  to="/news/$slug"
-                  params={{ slug: item.slug || item.id }}
-                >
-                  <NewsCard
-                    category={item.category || ""}
-                    title={item.title}
-                    date={item.date || ""}
-                    excerpt={normalizeContentExcerpt(item)}
-                    image={normalizeContentImage(item)}
-                  />
-                </Link>
-              ))}
-            </div>
+        <Section muted>
+          <div className="flex items-center justify-between">
+            <h2 className="cb-heading">Latest News</h2>
+            <Link to="/news" className="text-[length:var(--cb-font-size-caption)] uppercase font-[var(--cb-font-weight-heading)] text-[var(--cb-brand-accent)]">
+              View All News &rarr;
+            </Link>
           </div>
-        </section>
+          <div className="grid md:grid-cols-3 gap-[var(--cb-space-xl)] mt-[var(--cb-space-xl)]">
+            {latestNews.slice(0, 3).map((item, idx) => (
+              <Link
+                key={`${item.id || item.title}-${idx}`}
+                to="/news/$slug"
+                params={{ slug: item.slug || item.id }}
+              >
+                <NewsCard
+                  category={item.category || ""}
+                  title={item.title}
+                  date={item.date || ""}
+                  excerpt={normalizeContentExcerpt(item)}
+                  image={normalizeContentImage(item)}
+                />
+              </Link>
+            ))}
+          </div>
+        </Section>
       ) : homeLoading ? (
         <SectionSkeleton />
       ) : null}
 
       {/* Highlights */}
       {highlightsData && highlightsData.length > 0 ? (
-        <section className="bg-[var(--cb-surface-muted)] pb-[calc(var(--cb-space-section)*2)]">
-          <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)]">
-            <div className="flex items-center justify-between">
-              <h2 className="text-[length:var(--cb-font-size-screen)] font-[var(--cb-font-weight-heading)]">Highlights</h2>
-              <Link to="/highlights" className="text-[length:var(--cb-font-size-caption)] uppercase font-[var(--cb-font-weight-heading)] text-[var(--cb-brand-accent)]">
-                View All Highlights &rarr;
-              </Link>
-            </div>
-            <div className="grid md:grid-cols-3 gap-[var(--cb-space-xl)] mt-[var(--cb-space-xl)]">
-              {highlightsData.slice(0, 3).map((item, idx) => (
-                <Link
-                  key={`${item.id || item.title}-${idx}`}
-                  to="/highlights/$slug"
-                  params={{ slug: item.slug || item.id }}
-                >
-                  <NewsCard
-                    category={item.category || ""}
-                    title={item.title}
-                    date={item.date || ""}
-                    excerpt={normalizeContentExcerpt(item)}
-                    image={normalizeContentImage(item)}
-                  />
-                </Link>
-              ))}
-            </div>
+        <Section muted>
+          <div className="flex items-center justify-between">
+            <h2 className="cb-heading">Highlights</h2>
+            <Link to="/highlights" className="text-[length:var(--cb-font-size-caption)] uppercase font-[var(--cb-font-weight-heading)] text-[var(--cb-brand-accent)]">
+              View All Highlights &rarr;
+            </Link>
           </div>
-        </section>
+          <div className="grid md:grid-cols-3 gap-[var(--cb-space-xl)] mt-[var(--cb-space-xl)]">
+            {highlightsData.slice(0, 3).map((item, idx) => (
+              <Link
+                key={`${item.id || item.title}-${idx}`}
+                to="/highlights/$slug"
+                params={{ slug: item.slug || item.id }}
+              >
+                <NewsCard
+                  category={item.category || ""}
+                  title={item.title}
+                  date={item.date || ""}
+                  excerpt={normalizeContentExcerpt(item)}
+                  image={normalizeContentImage(item)}
+                />
+              </Link>
+            ))}
+          </div>
+        </Section>
       ) : homeLoading ? (
         <SectionSkeleton />
       ) : null}
@@ -404,95 +396,89 @@ function Home() {
 
 function SectionSkeleton() {
   return (
-    <section className="bg-[var(--cb-surface-muted)] py-[calc(var(--cb-space-section)*2)]">
-      <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)]">
-        <Skeleton className="h-8 w-48" />
-        <div className="grid md:grid-cols-3 gap-[var(--cb-space-xl)] mt-[calc(var(--cb-space-xl)*2)]">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-md)] overflow-hidden">
-              <Skeleton className="h-[190px] w-full rounded-none" />
-              <div className="p-[var(--cb-space-lg)] space-y-[var(--cb-space-md)]">
-                <Skeleton className="h-3 w-24" />
-                <Skeleton className="h-5 w-full" />
-                <Skeleton className="h-3 w-20" />
-                <Skeleton className="h-4 w-full" />
-              </div>
+    <Section muted>
+      <Skeleton className="h-8 w-48" />
+      <div className="grid md:grid-cols-3 gap-[var(--cb-space-xl)] mt-[var(--cb-space-xl)]">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-md)] overflow-hidden">
+            <Skeleton className="h-[190px] w-full rounded-none" />
+            <div className="p-[var(--cb-space-lg)] space-y-[var(--cb-space-md)]">
+              <Skeleton className="h-3 w-24" />
+              <Skeleton className="h-5 w-full" />
+              <Skeleton className="h-3 w-20" />
+              <Skeleton className="h-4 w-full" />
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
-    </section>
+    </Section>
   );
 }
 
 function TopScorersSection({ scorers }: { scorers: PublicTopScorer[] }) {
   return (
-    <section className="bg-[var(--cb-surface-muted)] pt-[calc(var(--cb-space-section)*2)] pb-[var(--cb-space-section)]">
-      <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)]">
-        <div className="flex items-center justify-between mb-[var(--cb-space-xl)]">
-          <h2 className="text-[length:var(--cb-font-size-screen)] font-[var(--cb-font-weight-heading)]">Top Scorers</h2>
-          <Link to="/top-scorers" className="text-[length:var(--cb-font-size-caption)] uppercase font-[var(--cb-font-weight-heading)] text-[var(--cb-brand-accent)]">
-            View All &rarr;
-          </Link>
-        </div>
-        <div className="overflow-x-auto" style={{ scrollbarWidth: "none" }}>
-          <div className="flex items-stretch gap-[var(--cb-space-lg)]" style={{ width: "max-content" }}>
-            {scorers.map((p, idx) => (
-              <div
-                key={`${p.playerId || p.playerName}-${idx}`}
-                className="w-[210px] shrink-0 bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-lg)] overflow-hidden hover:-translate-y-1 transition-transform duration-300 flex flex-col cb-shadow-panel"
-              >
-                <div className="relative aspect-[3/4] bg-gradient-to-b from-[var(--cb-surface-muted)] to-[var(--cb-border-subtle)] flex items-center justify-center text-[var(--cb-text-secondary)] font-[var(--cb-font-weight-heading)] text-[length:var(--cb-font-size-screen)]">
-                  {p.imageUrl ? (
-                    <img
-                      src={p.imageUrl}
-                      alt={p.playerName}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    generateInitials(p.playerName)
-                  )}
-                </div>
-                <div className="px-[var(--cb-space-md)] pt-[var(--cb-space-sm)] pb-[var(--cb-space-md)]">
-                  <div className="flex items-center gap-[var(--cb-space-xs)] text-[var(--cb-text-primary)] font-[var(--cb-font-weight-heading)] text-[length:var(--cb-font-size-title)]">
-                    <span aria-hidden>{String.fromCharCode(9917)}</span>
-                    <span>{p.goals}</span>
-                  </div>
-                  <h3 className="mt-[var(--cb-space-xs)] text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] leading-tight">
-                    {p.playerName}
-                  </h3>
-                  <p className="text-[length:var(--cb-font-size-caption)] text-[var(--cb-text-secondary)] mt-[calc(var(--cb-space-xs)/2)]">{p.teamName || ""}</p>
-                  <p className="mt-[var(--cb-space-sm)] text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-muted)] tracking-normal">
-                    {p.position || ""}
-                  </p>
-                </div>
+    <Section muted>
+      <div className="flex items-center justify-between mb-[var(--cb-space-xl)]">
+        <h2 className="cb-heading">Top Scorers</h2>
+        <Link to="/top-scorers" className="text-[length:var(--cb-font-size-caption)] uppercase font-[var(--cb-font-weight-heading)] text-[var(--cb-brand-accent)]">
+          View All &rarr;
+        </Link>
+      </div>
+      <div className="overflow-x-auto" style={{ scrollbarWidth: "none" }}>
+        <div className="flex items-stretch gap-[var(--cb-space-lg)]" style={{ width: "max-content" }}>
+          {scorers.map((p, idx) => (
+            <div
+              key={`${p.playerId || p.playerName}-${idx}`}
+              className="w-[210px] shrink-0 bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-lg)] overflow-hidden hover:-translate-y-1 transition-transform duration-300 flex flex-col cb-shadow-panel"
+            >
+              <div className="relative aspect-[3/4] bg-gradient-to-b from-[var(--cb-surface-muted)] to-[var(--cb-border-subtle)] flex items-center justify-center text-[var(--cb-text-secondary)] font-[var(--cb-font-weight-heading)] text-[length:var(--cb-font-size-screen)]">
+                {p.imageUrl ? (
+                  <img
+                    src={p.imageUrl}
+                    alt={p.playerName}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  generateInitials(p.playerName)
+                )}
               </div>
-            ))}
-          </div>
+              <div className="px-[var(--cb-space-md)] pt-[var(--cb-space-sm)] pb-[var(--cb-space-md)]">
+                <div className="flex items-center gap-[var(--cb-space-xs)] text-[var(--cb-text-primary)] font-[var(--cb-font-weight-heading)] text-[length:var(--cb-font-size-title)]">
+                  <span aria-hidden>{String.fromCharCode(9917)}</span>
+                  <span>{p.goals}</span>
+                </div>
+                <h3 className="mt-[var(--cb-space-xs)] text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] leading-tight">
+                  {p.playerName}
+                </h3>
+                <p className="text-[length:var(--cb-font-size-caption)] text-[var(--cb-text-secondary)] mt-[var(--cb-space-2xs)]">{p.teamName || ""}</p>
+                <p className="mt-[var(--cb-space-sm)] text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-muted)] tracking-normal">
+                  {p.position || ""}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    </section>
+    </Section>
   );
 }
 
 function SponsorsSection({ sponsors }: { sponsors: PublicSponsor[] }) {
   return (
-    <section className="bg-[var(--cb-surface-panel)] border-t-4 border-b-4 border-[var(--cb-brand-accent)] py-[calc(var(--cb-space-section)*2)]">
-      <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)] text-center">
-        <h2 className="text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)] tracking-normal text-[var(--cb-text-primary)] uppercase">Sponsors</h2>
-        <div className="mt-[var(--cb-space-xl)] flex items-center justify-center gap-[calc(var(--cb-space-xl)*2)] flex-wrap">
-          {sponsors.map((s, idx) =>
-            s.logoUrl ? (
-              <img
-                key={`${s.id}-${idx}`}
-                src={s.logoUrl}
-                alt={s.name}
-                className="h-16 object-contain"
-              />
-            ) : null,
-          )}
-        </div>
+    <Section className="border-t-4 border-b-4 border-[var(--cb-brand-accent)]" containerClassName="text-center">
+      <h2 className="text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)] tracking-normal text-[var(--cb-text-primary)] uppercase">Sponsors</h2>
+      <div className="mt-[var(--cb-space-xl)] flex items-center justify-center gap-[var(--cb-space-xl)] flex-wrap">
+        {sponsors.map((s, idx) =>
+          s.logoUrl ? (
+            <img
+              key={`${s.id}-${idx}`}
+              src={s.logoUrl}
+              alt={s.name}
+              className="h-16 object-contain"
+            />
+          ) : null,
+        )}
       </div>
-    </section>
+    </Section>
   );
 }

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Layout, PageHeader } from "@/components/Layout";
+import { Section } from "@/components/Section";
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePublicAbout } from "@/hooks/use-public-api";
 import { useLocale } from "@/lib/locale";
@@ -55,52 +56,48 @@ function About() {
     <Layout>
       <PageHeader title="About Us" subtitle="The story behind LigaD1" />
 
-      <section className="bg-[var(--cb-surface-panel)] py-[calc(var(--cb-space-section)*2)]">
-        <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)] grid md:grid-cols-2 gap-[calc(var(--cb-space-xl)*2)] items-center">
-          {isLoading ? (
-            <>
-              <div className="space-y-[var(--cb-space-lg)]">
-                <Skeleton className="h-4 w-28" />
-                <Skeleton className="h-10 w-72" />
-                <Skeleton className="h-20 w-full" />
-                <Skeleton className="h-20 w-full" />
+      <Section className="bg-[var(--cb-surface-panel)]" containerClassName="grid md:grid-cols-2 gap-[var(--cb-space-48)] items-center">
+        {isLoading ? (
+          <>
+            <div className="space-y-[var(--cb-space-lg)]">
+              <Skeleton className="h-4 w-28" />
+              <Skeleton className="h-10 w-72" />
+              <Skeleton className="h-20 w-full" />
+              <Skeleton className="h-20 w-full" />
+            </div>
+            <Skeleton className="h-[400px] w-full rounded-[var(--cb-radius-lg)]" />
+          </>
+        ) : (
+          <>
+            <div>
+              <div className="text-[var(--cb-brand-accent)] text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)] uppercase tracking-normal">
+                Who We Are
               </div>
-              <Skeleton className="h-[400px] w-full rounded-[var(--cb-radius-lg)]" />
-            </>
-          ) : (
-            <>
-              <div>
-                <div className="text-[var(--cb-brand-accent)] text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)] uppercase tracking-normal">
-                  Who We Are
-                </div>
-                <h2 className="text-[length:var(--cb-font-size-screen)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] mt-[var(--cb-space-sm)]">{heroTitle}</h2>
-                <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)] leading-[1.7] mt-[var(--cb-space-lg)]">{heroSummary}</p>
-              </div>
-              <div className="rounded-[var(--cb-radius-lg)] overflow-hidden">
-                <img src={heroImage} alt="LigaD1" className="w-full h-full object-cover" />
-              </div>
-            </>
-          )}
-        </div>
-      </section>
+              <h2 className="cb-heading mt-[var(--cb-space-sm)]">{heroTitle}</h2>
+              <p className="cb-body mt-[var(--cb-space-lg)]">{heroSummary}</p>
+            </div>
+            <div className="rounded-[var(--cb-radius-lg)] overflow-hidden">
+              <img src={heroImage} alt="LigaD1" className="w-full h-full object-cover" />
+            </div>
+          </>
+        )}
+      </Section>
 
-      <section className="bg-[var(--cb-surface-muted)] py-[calc(var(--cb-space-section)*2)]">
-        <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)] grid md:grid-cols-3 gap-[var(--cb-space-xl)]">
-          {isLoading
-            ? Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-md)] p-[var(--cb-space-xl)] cb-shadow-panel">
-                  <Skeleton className="h-5 w-28 mb-[var(--cb-space-sm)]" />
-                  <Skeleton className="h-16 w-full" />
-                </div>
-              ))
-            : sections.map((s) => (
-                <div key={s.title} className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-md)] p-[var(--cb-space-xl)] cb-shadow-panel">
-                  <h3 className="text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)] text-[var(--cb-brand-primary)]">{s.title}</h3>
-                  <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)] leading-[1.7] mt-[var(--cb-space-sm)]">{s.body}</p>
-                </div>
-              ))}
-        </div>
-      </section>
+      <Section muted containerClassName="grid md:grid-cols-3 gap-[var(--cb-space-xl)]">
+        {isLoading
+          ? Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-md)] p-[var(--cb-space-xl)] cb-shadow-panel">
+                <Skeleton className="h-5 w-28 mb-[var(--cb-space-sm)]" />
+                <Skeleton className="h-16 w-full" />
+              </div>
+            ))
+          : sections.map((s) => (
+              <div key={s.title} className="bg-[var(--cb-surface-panel)] rounded-[var(--cb-radius-md)] p-[var(--cb-space-xl)] cb-shadow-panel">
+                <h3 className="cb-title text-[var(--cb-brand-primary)]">{s.title}</h3>
+                <p className="cb-body mt-[var(--cb-space-sm)]">{s.body}</p>
+              </div>
+            ))}
+      </Section>
     </Layout>
   );
 }

@@ -30,14 +30,18 @@ export function MobileAppPrompt() {
   return (
     <div
       className="fixed inset-0 z-[2000] flex items-center justify-center px-[var(--cb-space-xl)]"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Download our app"
       style={{
         background: "color-mix(in srgb, var(--cb-surface-inverse), transparent 20%)",
         backdropFilter: "blur(8px)",
       }}
+      onKeyDown={(e) => { if (e.key === "Escape") dismiss(); }}
     >
-      <div className="cb-panel cb-shadow-panel p-[calc(var(--cb-space-xl)+var(--cb-space-lg))] max-w-[340px] w-full text-center">
+      <div className="cb-panel cb-shadow-panel p-[var(--cb-space-48)] max-w-[340px] w-full text-center">
         <div
-          className="w-20 h-20 rounded-full text-[var(--cb-text-inverse)] text-2xl font-[var(--cb-font-weight-heading)] flex items-center justify-center mx-auto bg-[var(--cb-brand-accent)]"
+          className="w-20 h-20 rounded-full text-[var(--cb-text-inverse)] text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)] flex items-center justify-center mx-auto bg-[var(--cb-brand-accent)]"
         >
           L1
         </div>
@@ -51,13 +55,13 @@ export function MobileAppPrompt() {
           href={appDestinationUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="cb-button-primary w-full mt-[var(--cb-space-xl)] text-center"
+          className="cb-button-primary w-full mt-[var(--cb-space-xl)] text-center cb-focus"
         >
           Get the {leagueName} App
         </a>
         <button
           onClick={dismiss}
-          className="block mt-[var(--cb-space-lg)] cb-body hover:underline mx-auto"
+          className="block mt-[var(--cb-space-lg)] cb-body hover:underline mx-auto cb-focus"
         >
           Continue in browser &rarr;
         </button>

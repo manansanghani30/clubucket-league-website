@@ -2,6 +2,10 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Instagram, Facebook, Twitter, Globe } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Container } from "@/components/Container";
+import { Section } from "@/components/Section";
+import { BackLink } from "@/components/BackLink";
+import { EmptyState } from "@/components/EmptyState";
 import { usePublicTeam } from "@/hooks/use-public-api";
 import { generateInitials } from "@/lib/public-api";
 
@@ -18,17 +22,10 @@ function TeamProfile() {
     return (
       <Layout>
         <div className="w-full bg-[var(--cb-brand-primary)] h-[220px] flex items-center justify-center" />
-        <section className="bg-[var(--cb-surface-muted)] py-[calc(var(--cb-space-section)*2)]">
-          <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)] text-center">
-            <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)]">Team not found.</p>
-            <Link
-              to="/divisions"
-              className="mt-[var(--cb-space-md)] inline-block text-[length:var(--cb-font-size-caption)] text-[var(--cb-brand-accent)] font-[var(--cb-font-weight-heading)] hover:underline"
-            >
-              &larr; Back to Divisions
-            </Link>
-          </div>
-        </section>
+        <Section muted containerClassName="text-center">
+          <EmptyState message="Team not found." />
+          <BackLink to="/divisions">Back to Divisions</BackLink>
+        </Section>
       </Layout>
     );
   }
@@ -51,11 +48,11 @@ function TeamProfile() {
                 </Link>
                 {team.divisionName && (
                   <>
-                    <span className="text-[color-mix(in_srgb,var(--cb-text-inverse),transparent_60%)] mx-[var(--cb-space-xs)]">&rsaquo;</span>
+                    <span className="text-[var(--cb-text-inverse)]/60 mx-[var(--cb-space-xs)]">&rsaquo;</span>
                     <span>{team.divisionName}</span>
                   </>
                 )}
-                <span className="text-[color-mix(in_srgb,var(--cb-text-inverse),transparent_60%)] mx-[var(--cb-space-xs)]">&rsaquo;</span>
+                <span className="text-[var(--cb-text-inverse)]/60 mx-[var(--cb-space-xs)]">&rsaquo;</span>
                 <span className="text-[var(--cb-text-inverse)]">{team.name}</span>
               </div>
               <div className="mx-auto mt-[var(--cb-space-sm)] w-[72px] h-[72px] rounded-[var(--cb-radius-lg)] flex items-center justify-center border-2 border-[var(--cb-text-inverse)] overflow-hidden">
@@ -123,16 +120,10 @@ function TeamProfile() {
         </div>
       </div>
 
-      <section className="bg-[var(--cb-surface-muted)] py-[calc(var(--cb-space-section)*2)]">
-        <div className="max-w-[1200px] mx-auto px-[var(--cb-space-xl)]">
-          <Link
-            to="/divisions"
-            className="inline-block text-[length:var(--cb-font-size-caption)] text-[var(--cb-text-secondary)] hover:text-[var(--cb-brand-accent)] mb-[var(--cb-space-md)]"
-          >
-            &larr; Back to Divisions
-          </Link>
+      <Section muted>
+        <BackLink to="/divisions">Back to Divisions</BackLink>
 
-          <h2 className="text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] mb-[var(--cb-space-lg)]">Squad</h2>
+          <h2 className="cb-title mb-[var(--cb-space-lg)]">Squad</h2>
           {isLoading ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-[var(--cb-space-xl)]">
               {Array.from({ length: 8 }).map((_, i) => (
@@ -168,7 +159,7 @@ function TeamProfile() {
                     <h3 className="mt-[var(--cb-space-xs)] text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] leading-tight">
                       {p.name}
                     </h3>
-                    <p className="text-[length:var(--cb-font-size-caption)] text-[var(--cb-text-secondary)] mt-[calc(var(--cb-space-xs)/2)]">{team?.name || ""}</p>
+                    <p className="text-[length:var(--cb-font-size-caption)] text-[var(--cb-text-secondary)] mt-[var(--cb-space-2xs)]">{team?.name || ""}</p>
                     <p className="mt-[var(--cb-space-sm)] text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-muted)] tracking-normal">
                       {(p.position || "").toUpperCase()}
                     </p>
@@ -177,10 +168,10 @@ function TeamProfile() {
               ))}
             </div>
           ) : (
-            <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)]">No players listed yet.</p>
+            <EmptyState message="No players listed yet." />
           )}
 
-          <h2 className="text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] mb-[var(--cb-space-lg)] mt-[calc(var(--cb-space-section)*2)]">Coaches</h2>
+          <h2 className="text-[length:var(--cb-font-size-title)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] mb-[var(--cb-space-lg)] mt-[var(--cb-space-section)]">Coaches</h2>
           {isLoading ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-[var(--cb-space-xl)]">
               {Array.from({ length: 3 }).map((_, i) => (
@@ -211,7 +202,7 @@ function TeamProfile() {
                     <h3 className="text-[length:var(--cb-font-size-body)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)] leading-tight">
                       {c.name}
                     </h3>
-                    <p className="text-[length:var(--cb-font-size-caption)] text-[var(--cb-text-secondary)] mt-[calc(var(--cb-space-xs)/2)]">{team?.name || ""}</p>
+                    <p className="text-[length:var(--cb-font-size-caption)] text-[var(--cb-text-secondary)] mt-[var(--cb-space-2xs)]">{team?.name || ""}</p>
                     <p className="mt-[var(--cb-space-sm)] text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-muted)] tracking-normal uppercase">
                       {c.role || ""}
                     </p>
@@ -220,10 +211,9 @@ function TeamProfile() {
               ))}
             </div>
           ) : (
-            <p className="text-[length:var(--cb-font-size-body)] text-[var(--cb-text-secondary)]">No coaches listed yet.</p>
+            <EmptyState message="No coaches listed yet." />
           )}
-        </div>
-      </section>
+      </Section>
     </Layout>
   );
 }
