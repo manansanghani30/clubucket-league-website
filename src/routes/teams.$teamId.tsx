@@ -69,12 +69,14 @@ function TeamProfile() {
                 )}
               </div>
               <h1 className="text-[var(--cb-text-inverse)] text-[length:var(--cb-font-size-screen)] font-[var(--cb-font-weight-heading)] uppercase mt-[var(--cb-space-sm)]">{team.name}</h1>
-              {socialLinks && (
+              {socialLinks && Object.keys(socialLinks).length > 0 && (
                 <div className="flex items-center justify-center gap-[var(--cb-space-sm)] mt-[var(--cb-space-xs)]">
                   {socialLinks.instagram && (
                     <a
                       href={socialLinks.instagram}
                       aria-label="Instagram"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="text-[color-mix(in_srgb,var(--cb-text-inverse),transparent_30%)] hover:text-[var(--cb-text-inverse)] transition-colors"
                     >
                       <Instagram size={18} />
@@ -84,24 +86,30 @@ function TeamProfile() {
                     <a
                       href={socialLinks.facebook}
                       aria-label="Facebook"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="text-[color-mix(in_srgb,var(--cb-text-inverse),transparent_30%)] hover:text-[var(--cb-text-inverse)] transition-colors"
                     >
                       <Facebook size={18} />
                     </a>
                   )}
-                  {socialLinks.twitter && (
+                  {(socialLinks.x || socialLinks.twitter) && (
                     <a
-                      href={socialLinks.twitter}
+                      href={socialLinks.x || socialLinks.twitter}
                       aria-label="X (Twitter)"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="text-[color-mix(in_srgb,var(--cb-text-inverse),transparent_30%)] hover:text-[var(--cb-text-inverse)] transition-colors"
                     >
                       <Twitter size={18} />
                     </a>
                   )}
-                  {socialLinks.website && (
+                  {(socialLinks.website || socialLinks.other) && (
                     <a
-                      href={socialLinks.website}
+                      href={socialLinks.website || socialLinks.other}
                       aria-label="Website"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="text-[color-mix(in_srgb,var(--cb-text-inverse),transparent_30%)] hover:text-[var(--cb-text-inverse)] transition-colors"
                     >
                       <Globe size={18} />

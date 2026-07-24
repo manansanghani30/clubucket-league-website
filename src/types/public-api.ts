@@ -268,6 +268,30 @@ export type PublicFixture = {
   result: PublicFixtureResult | null;
 };
 
+export type PublicFixtureGoalEvent = {
+  id: string;
+  teamId: string;
+  teamName?: string | null;
+  playerId: string;
+  playerName?: string | null;
+  goals: number;
+};
+
+export type PublicFixtureCardEvent = {
+  id: string;
+  teamId: string;
+  teamName?: string | null;
+  playerId: string;
+  playerName?: string | null;
+  cardType: "yellow" | "red";
+  cards: number;
+};
+
+export type PublicFixtureDetail = PublicFixture & {
+  goalEvents: PublicFixtureGoalEvent[];
+  cardEvents: PublicFixtureCardEvent[];
+};
+
 export type PublicStandingTeam = {
   id: string;
   name: string;

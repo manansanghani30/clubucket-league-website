@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PageNav } from "@/components/PageNav";
+import { MatchDetailDialog } from "@/components/MatchDetailDialog";
 import {
   usePublicSchedule,
   usePublicSeasons,
@@ -37,6 +38,7 @@ function Schedule() {
   const [divisionId, setDivisionId] = useState<string>("ALL");
   const [seasonId, setSeasonId] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
+  const [selectedFixture, setSelectedFixture] = useState<PublicFixture | null>(null);
 
   const { data: config } = usePublicConfig();
   const { data: seasons, isLoading: seasonsLoading } = usePublicSeasons();
@@ -186,7 +188,11 @@ function Schedule() {
                     </span>
                   </div>
                   {groupFixtures.map((m, idx) => (
-                    <MatchCard key={`${m.id}-${idx}`} m={m} />
+                    <MatchCard
+                      key={`${m.id}-${idx}`}
+                      m={m}
+                      onClick={() => setSelectedFixture(m)}
+                    />
                   ))}
                 </div>
               ))}
@@ -195,6 +201,14 @@ function Schedule() {
           )}
         </div>
       </section>
+
+      <MatchDetailDialog
+        fixture={selectedFixture}
+        open={selectedFixture !== null}
+        onOpenChange={(open) => {
+          if (!open) setSelectedFixture(null);
+        }}
+      />
     </Layout>
   );
 }
@@ -231,14 +245,25 @@ function TeamLogoImg({ team }: { team: { logoUrl?: string; shortCode?: string; n
   );
 }
 
-function MatchCard({ m }: { m: PublicFixture }) {
+function MatchCard({ m, onClick }: { m: PublicFixture; onClick?: () => void }) {
   const statusPill =
     m.status === "completed" ? "bg-[color-mix(in_srgb,var(--cb-status-success),transparent_86%)] text-[var(--cb-status-success)]" : "bg-[var(--cb-surface-muted)] text-[var(--cb-text-secondary)]";
   const statusLabel =
     m.status === "completed" ? "Completed" : m.status === "scheduled" ? "Upcoming" : m.status;
 
   return (
-    <div className="bg-[var(--cb-surface-panel)] border border-[var(--cb-border-subtle)] rounded-[var(--cb-radius-md)] px-[var(--cb-space-xl)] py-[var(--cb-space-lg)] mb-[var(--cb-space-xs)].5">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick?.();
+        }
+      }}
+      className="bg-[var(--cb-surface-panel)] border border-[var(--cb-border-subtle)] rounded-[var(--cb-radius-md)] px-[var(--cb-space-xl)] py-[var(--cb-space-lg)] mb-[var(--cb-space-xs)].5 cursor-pointer hover:border-[var(--cb-brand-accent)] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cb-brand-accent)]"
+    >
       <div className="flex items-center gap-[var(--cb-space-md)]">
         <div className="w-[15%] text-center">
           <div className="text-[length:var(--cb-font-size-caption)] font-[var(--cb-font-weight-heading)] text-[var(--cb-text-primary)]">{formatDate(m.matchDate)}</div>

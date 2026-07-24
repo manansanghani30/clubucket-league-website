@@ -1,24 +1,24 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
 import { Skeleton } from "@/components/ui/skeleton";
-import { usePublicHighlightsItem } from "@/hooks/use-public-api";
+import { usePublicNewsItem } from "@/hooks/use-public-api";
 import { normalizeContentImage } from "@/lib/public-api";
 import { useLocale } from "@/lib/locale";
 import { BackLink } from "@/components/BackLink";
 import { EmptyState } from "@/components/EmptyState";
 import { Container } from "@/components/Container";
 
-export const Route = createFileRoute("/highlights/$slug")({
+export const Route = createFileRoute("/news_/$slug")({
   head: ({ params }) => ({
-    meta: [{ title: `Highlights — ${params.slug} — LigaD1` }],
+    meta: [{ title: `News — ${params.slug} — LigaD1` }],
   }),
-  component: HighlightsDetail,
+  component: NewsDetail,
 });
 
-function HighlightsDetail() {
+function NewsDetail() {
   const { slug } = Route.useParams();
   const { locale } = useLocale();
-  const { data: item, isLoading } = usePublicHighlightsItem(slug, locale);
+  const { data: item, isLoading } = usePublicNewsItem(slug, locale);
 
   if (isLoading) {
     return (
@@ -44,20 +44,19 @@ function HighlightsDetail() {
     return (
       <Layout>
         <Container className="max-w-[750px] py-[var(--cb-space-section)] text-center">
-          <EmptyState message="Highlight not found." />
-          <BackLink to="/highlights">Back to Highlights</BackLink>
+          <EmptyState message="Article not found." />
+          <BackLink to="/news">Back to News</BackLink>
         </Container>
       </Layout>
     );
   }
 
   const imageUrl = normalizeContentImage(item);
-  const isVideo = item.mediaUrl || item.category?.toLowerCase().includes("video");
 
   return (
     <Layout>
       <article className="max-w-[750px] mx-auto px-[var(--cb-space-xl)] py-[var(--cb-space-section)]">
-        <BackLink to="/highlights">Back to Highlights</BackLink>
+        <BackLink to="/news">Back to News</BackLink>
 
         {item.category && (
           <div className="text-[length:var(--cb-font-size-caption)] uppercase font-[var(--cb-font-weight-heading)] text-[var(--cb-brand-accent)] mt-[var(--cb-space-lg)] tracking-normal">
@@ -77,23 +76,13 @@ function HighlightsDetail() {
           )}
         </div>
 
-        {isVideo && item.mediaUrl ? (
-          <div className="mt-[var(--cb-space-xl)] aspect-video rounded-[var(--cb-radius-lg)] overflow-hidden bg-[var(--cb-surface-inverse)]">
-            <iframe
-              src={item.mediaUrl}
-              title={item.title}
-              className="w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-        ) : imageUrl ? (
+        {imageUrl && (
           <img
             src={imageUrl}
             alt={item.title}
             className="w-full rounded-[var(--cb-radius-lg)] mt-[var(--cb-space-xl)] object-cover max-h-[460px]"
           />
-        ) : null}
+        )}
 
         <div className="mt-[var(--cb-space-xl)] cb-body leading-[1.7] space-y-[var(--cb-space-lg)]">
           {item.bodySections?.length ? (
@@ -110,6 +99,19 @@ function HighlightsDetail() {
           ) : item.summary ? (
             <p>{item.summary}</p>
           ) : null}
+
+          {item.mediaUrl && (
+            <div className="mt-[var(--cb-space-lg)]">
+              <a
+                href={item.mediaUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[var(--cb-brand-accent)] font-[var(--cb-font-weight-heading)] hover:underline"
+              >
+                {item.ctaText || "Watch Video"}
+              </a>
+            </div>
+          )}
 
           {item.ctaUrl && !item.mediaUrl && (
             <div className="mt-[var(--cb-space-lg)]">

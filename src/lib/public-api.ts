@@ -5,6 +5,7 @@ import type {
   PublicConfig,
   PublicConfigNavigationItem,
   PublicConfigRaw,
+  PublicContentItem,
   PublicDivision,
   PublicSeason,
   PublicSponsor,
@@ -179,13 +180,53 @@ export function normalizeContentImage(
   return item.featuredImageUrl || item.thumbnailUrl || fallbackImageUrl;
 }
 
+/**
+ * Content bodies come from the API as a rich-text JSON object
+ * (`{ blocks: [{ text, type }] }`), a plain string, or null. Flatten any of
+ * these into a newline-separated string the detail page can render.
+ */
+export function normalizeContentBody(body: unknown): string {
+  if (!body) return "";
+  if (typeof body === "string") return body;
+  if (typeof body === "object") {
+    const blocks = (body as { blocks?: unknown }).blocks;
+    if (Array.isArray(blocks)) {
+      return blocks
+        .map((b) =>
+          typeof b === "string" ? b : (b as { text?: string })?.text ?? "",
+        )
+        .filter(Boolean)
+        .join("\n\n");
+    }
+  }
+  return "";
+}
+
+/**
+ * Map a raw API content item onto the shape the UI expects: flatten `body`,
+ * and alias `ctaLabel`/`publishedAt` to the `ctaText`/`date` fields the
+ * components read.
+ */
+export function normalizeContentItem<T extends Record<string, unknown>>(
+  raw: T,
+): PublicContentItem {
+  const item = raw as Record<string, unknown>;
+  return {
+    ...(raw as unknown as PublicContentItem),
+    body: normalizeContentBody(item.body),
+    date: (item.date as string) || (item.publishedAt as string) || undefined,
+    ctaText: (item.ctaText as string) || (item.ctaLabel as string) || undefined,
+  };
+}
+
 export function normalizeContentExcerpt(item: {
   summary?: string;
-  body?: string;
+  body?: unknown;
   bodySections?: { title?: string; body: string }[];
 }): string {
   if (item.summary) return item.summary;
-  if (item.body) return item.body;
+  const body = normalizeContentBody(item.body);
+  if (body) return body;
   if (item.bodySections?.length && item.bodySections[0].body) {
     return item.bodySections[0].body;
   }

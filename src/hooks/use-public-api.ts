@@ -6,6 +6,7 @@ import {
   normalizeTopScorer,
   normalizeSponsor,
   normalizePublicConfig,
+  normalizeContentItem,
 } from "@/lib/public-api";
 import { getOrganizationSlug } from "@/lib/env";
 import type {
@@ -15,6 +16,7 @@ import type {
   PublicTeamDetailRaw,
   PublicSeason,
   PublicFixture,
+  PublicFixtureDetail,
   PublicStandingRow,
   PublicTopScorer,
   PublicTopScorerRaw,
@@ -35,6 +37,7 @@ export const queryKeys = {
   seasons: ["public-seasons", slug] as const,
   schedule: (seasonId?: string, divisionId?: string, status?: string, page?: number) =>
     ["public-schedule", slug, seasonId, divisionId, status, page] as const,
+  fixture: (fixtureId: string) => ["public-fixture", slug, fixtureId] as const,
   standings: (seasonId?: string, divisionId?: string) =>
     ["public-standings", slug, seasonId, divisionId] as const,
   topScorers: (seasonId?: string, divisionId?: string) =>
@@ -42,7 +45,11 @@ export const queryKeys = {
   topScorersPage: (seasonId?: string, divisionId?: string, page?: number) =>
     ["public-top-scorers-page", slug, seasonId, divisionId, page] as const,
   news: (locale: string, page?: number) => ["public-news", slug, locale, page] as const,
+  newsItem: (itemSlug: string, locale: string) =>
+    ["public-news-item", slug, itemSlug, locale] as const,
   highlights: (locale: string, page?: number) => ["public-highlights", slug, locale, page] as const,
+  highlightItem: (itemSlug: string, locale: string) =>
+    ["public-highlight-item", slug, itemSlug, locale] as const,
   sponsors: (locale: string) => ["public-sponsors", slug, locale] as const,
   about: (locale: string) => ["public-about", slug, locale] as const,
 };
@@ -146,6 +153,16 @@ export function usePublicSchedule(
   });
 }
 
+export function usePublicFixture(fixtureId?: string) {
+  return useQuery({
+    queryKey: queryKeys.fixture(fixtureId ?? ""),
+    queryFn: () => fetchPublicApi<PublicFixtureDetail>(`/schedule/${fixtureId}`),
+    staleTime: 2 * 60 * 1000,
+    enabled: !!fixtureId,
+    retry: 1,
+  });
+}
+
 export function usePublicStandings(seasonId?: string, divisionId?: string) {
   return useQuery({
     queryKey: queryKeys.standings(seasonId, divisionId),
@@ -227,29 +244,31 @@ export function usePublicHighlights(locale: string, page?: number) {
   });
 }
 
-export function usePublicNewsItem(slug: string, locale: string) {
+export function usePublicNewsItem(itemSlug: string, locale: string) {
   return useQuery({
-    queryKey: queryKeys.news(locale),
+    queryKey: queryKeys.newsItem(itemSlug, locale),
     queryFn: () =>
-      fetchPublicApiWithMeta<PublicContentItem[]>("/news", {
-        params: { locale, limit: 50 },
+      fetchPublicApi<Record<string, unknown>>(`/news/${itemSlug}`, {
+        params: { locale },
       }),
+    select: normalizeContentItem,
     staleTime: 2 * 60 * 1000,
-    enabled: !!locale && !!slug,
-    select: (data) => data?.items?.find((item) => item.slug === slug) ?? null,
+    enabled: !!locale && !!itemSlug,
+    retry: 1,
   });
 }
 
-export function usePublicHighlightsItem(slug: string, locale: string) {
+export function usePublicHighlightsItem(itemSlug: string, locale: string) {
   return useQuery({
-    queryKey: queryKeys.highlights(locale),
+    queryKey: queryKeys.highlightItem(itemSlug, locale),
     queryFn: () =>
-      fetchPublicApiWithMeta<PublicContentItem[]>("/highlights", {
-        params: { locale, limit: 50 },
+      fetchPublicApi<Record<string, unknown>>(`/highlights/${itemSlug}`, {
+        params: { locale },
       }),
+    select: normalizeContentItem,
     staleTime: 2 * 60 * 1000,
-    enabled: !!locale && !!slug,
-    select: (data) => data?.items?.find((item) => item.slug === slug) ?? null,
+    enabled: !!locale && !!itemSlug,
+    retry: 1,
   });
 }
 
